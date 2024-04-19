@@ -32,7 +32,7 @@ const Done = ({ ...props }) => {
 const OnBoardingStarter = ({ navigation }) => {
   return (
     <Onboarding
-      onSkip={() => navigation.navigate("GetStarted")}
+      onSkip={() => navigation.navigate("BottomNavigation")}
       onDone={() => navigation.navigate("GetStarted")}
       DotComponent={Dots}
       bottomBarColor="#ffffff"

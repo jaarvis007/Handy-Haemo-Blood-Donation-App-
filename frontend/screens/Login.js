@@ -8,14 +8,18 @@ import Button from "../components/Button";
 import Input from "../components/input";
 import Axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getData, getMyObject, getMyStringValue, setData, setObjectValue, setStringValue } from "../global/AsyncStorage";
+
 
 
 const Login = ({ navigation }) => {
-
+  
+  const [val,setVal]=useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
+
     try {
       if (!email || !password) {
         Alert.alert("All fields are mandotary");
@@ -27,11 +31,11 @@ const Login = ({ navigation }) => {
       })
         .then((response) => {
           if (response.data.success) {
-            console.log(response.data.user);
-            // console.log("response " + JSON.parse(response).data);
-            // AsyncStorage.setItem("user",response.data.user);
-            navigation.navigate("Home");
-            Alert.alert("Login SuccessFul");
+            const data=response.data.user;
+            setData('user',response.data.user);         
+
+            navigation.navigate("BottomNavigation");
+            Alert.alert(`Welcome ${data.name}`);
             console.log("Login SuccessFul");
           }
         })

@@ -9,11 +9,19 @@ import {
   Register,
   ResetPassword,
   SucessVerification,
+  Location,
 } from "./screens";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Onboarding from "react-native-onboarding-swiper";
+import FlashScreen from "./Flash/FlashScreen";
+import BottomNavigation from "./Navigation/BottomNavigation";
+import LocationComponent from "./screens/LocationComponent";
+import MapScreen from "./screens/MapScreen";
+import UpdateInfo from "./screens/UpdateInfo";
+import Testing from "./screens/Testing";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -33,11 +41,11 @@ export default function App() {
   }, []);
 
   const [fontsLoaded] = useFonts({
-    black: require("./assets/fonts/Poppins-Black.ttf"),
-    bold: require("./assets/fonts/Poppins-Bold.ttf"),
-    medium: require("./assets/fonts/Poppins-Medium.ttf"),
-    regular: require("./assets/fonts/Poppins-Regular.ttf"),
-    semiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+    black: require("./assets/Font/Poppins-Black.ttf"),
+    bold: require("./assets/Font/Poppins-Bold.ttf"),
+    medium: require("./assets/Font/Poppins-Medium.ttf"),
+    regular: require("./assets/Font/Poppins-Regular.ttf"),
+    semiBold: require("./assets/Font/Poppins-SemiBold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -52,6 +60,11 @@ export default function App() {
   }
 
   return (
+    // <Testing/>
+    // <FlashScreen/>
+    // <BottomNavigation/>
+    // <MapScreen/>
+    // <LocationComponent/>
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator
         // initialRouteName={isFirstLaunch ? "OnBoardingStarter" : "GetStarted"}
@@ -112,6 +125,29 @@ export default function App() {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name="FlashScreen"
+          component={FlashScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+        options={{
+            headerShown: false,
+          }}
+          name="BottomNavigation"
+          component={BottomNavigation}
+          
+        />
+        <Stack.Screen
+        options={{
+            headerShown: false,
+          }}
+          name="UpdateInfo"
+          component={UpdateInfo}
+          
         />
       </Stack.Navigator>
     </NavigationContainer>
