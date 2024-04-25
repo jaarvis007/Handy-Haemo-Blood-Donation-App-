@@ -2,7 +2,10 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-const MapScreen = () => {
+const Mapscreen = () => {
+  // Coordinates for the marker
+  const markerCoordinates = { latitude: 37.78825, longitude: -122.4324 };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -14,10 +17,13 @@ const MapScreen = () => {
           longitudeDelta: 0.0421,
         }}
       >
+        {/* Marker with a custom callout */}
         <Marker
-          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
+          coordinate={markerCoordinates}
           title="Marker Title"
-          description="Marker Description"
+          description="This is the marker description"
+          // Custom marker image (optional)
+          // image={require('./path/to/custom_marker.png')}
         />
       </MapView>
     </View>
@@ -26,11 +32,13 @@ const MapScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   map: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
   },
 });
 
-export default MapScreen;
+export default Mapscreen;
