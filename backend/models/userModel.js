@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
     },
     bloodtype:{
       type: String,
+      enum: ['A+','A-', 'B+','B-', 'AB+','AB-', 'O+','O-'],
       required: [true, "bloodtype is requied"],
     },
     location: {
@@ -24,9 +25,25 @@ const userSchema = new mongoose.Schema(
       required: [true, "address is required"],
     },
     phone: {
-      type: String,
+      type: Number,
       required: [true, "phone number is required"],
     },
+    donationCnt:{
+      type: Number,
+      default: 0 // Default value for points is zero
+    },
+    requestCnt:{
+      type: Number,
+      default: 0
+    },
+    notification:{
+      type: Array,
+      default: []
+    },
+    donationReq:{
+      type: Array,
+      default: []
+    }
   },
   { timestamps: true }
 );
