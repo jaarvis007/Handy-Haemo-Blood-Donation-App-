@@ -6,7 +6,8 @@ import { commonJustify, commonStyle } from '../commonStyle'
 import fontValue from '../FontValue' 
 
 const DonationComponent = ({item}) => {
-    
+
+    // console.log(item);
     return (
         <View style={[styles.main, commonJustify.rowSpaceBetween]}>    
            <View>
@@ -26,13 +27,13 @@ const DonationComponent = ({item}) => {
             </View>
            </View>
 
-           <View  style={{paddingTop:30}} >
+           <View  style={{paddingTop:10}} >
                <Image style={{width:100}} resizeMode="contain" source={require("../../assets/images/img2/BloodGroup.png")}/>
                <Button titleStyle={{color:colorValue.primary}} type="clear" title="Donate" />
            </View>
         </View>
-    )
-}
+    );
+};
 
 export default DonationComponent
 

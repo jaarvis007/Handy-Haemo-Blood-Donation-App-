@@ -4,8 +4,11 @@ import { donationRequest } from "../constants/Home/Data";
 import DonationReqCard from '../constants/Home/DonationReqCard';
 
 const DonationReq = () => {
+
+  
   return (
     // <ScrollView>
+
         <View style={{width: '100%', height: '100%'}}>
           <FlatList
             data={donationRequest}
