@@ -1,16 +1,4 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 
-const Data = () => {
-  
-  return (
-    <View>
-      <Text>Data</Text>
-    </View>
-  )
-}
-
-export default Data
 
 
 export const ItemArray = [
@@ -110,13 +98,12 @@ export const donationRequest = [
 
 export const donationdata = [
     {
-        id:1,
+        __id:1,
         name:"Aman Jain",
         location:"Kanpur, India",
         time:"5 Min Ago",
-
     },
-{
+    {
         id:2,
         name:"Habib",
         location:"Shylet, Bangladesh",
@@ -139,3 +126,56 @@ export const donationdata = [
     },
     
 ]
+
+export const searchData = [
+    {
+        req_id:1,
+        name:"Aman Jain",
+        location:"Kanpur, India",
+    },
+{
+        req_id:2,
+        name:"Habib",
+        location:"Shylet, Bangladesh",
+
+    },
+{
+        req_id:3,
+        name:"Kobir",
+        location:"Dhaka, Bangladesh",
+
+    },
+    {
+        req_id:4,
+        name:"Asik",
+        location:"Dhaka, Bangladesh",
+
+    },
+    {
+        req_id:1,
+        name:"Aman Jain",
+        location:"Kanpur, India",
+
+    },
+{
+        req_id:2,
+        name:"Habib",
+        location:"Shylet, Bangladesh",
+  
+    },
+{
+        req_id:3,
+        name:"Kobir",
+        location:"Dhaka, Bangladesh",
+       
+
+    },
+    {
+        req_id:4,
+        name:"Asik",
+        location:"Dhaka, Bangladesh",
+        
+
+    },
+    
+];

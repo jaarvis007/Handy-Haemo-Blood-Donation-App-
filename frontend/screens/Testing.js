@@ -1,43 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 
 const Testing = () => {
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
-    // Request permission and get current location when component mounts
-    (async () => {
+  const getLocationAsync = async () => {
+    try {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        console.error('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+
+
       
-    })();
-  }, []); // empty dependency array means this effect runs only once after initial render
+      const location = await Location.getCurrentPositionAsync({});
+      console.log('get location successfully')
+      setLocation(location);
+    } catch (error) {
+      console.error('Error getting location:', error);
+    }
+  };
 
   return (
-
     <View style={styles.container}>
-      <Text style={styles.title}>Get Current Location</Text>
-      {errorMsg ? (
-        <Text style={styles.errorMsg}>{errorMsg}</Text>
+      {location ? (
+        <View>
+          <Text style={styles.text}>Latitude: {location.coords.latitude}</Text>
+          <Text style={styles.text}>Longitude: {location.coords.longitude}</Text>
+        </View>
       ) : (
-        location && (
-          <View>
-            <Text style={styles.locationText}>
-              Latitude: {location.coords.latitude}
-            </Text>
-            <Text style={styles.locationText}>
-              Longitude: {location.coords.longitude}
-            </Text>
-          </View>
-        )
+        <Text style={styles.text}>Fetching location...</Text>
       )}
+
+      <Button title="Location" onPress={getLocationAsync} />
     </View>
   );
 };
@@ -47,21 +44,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  locationText: {
+  text: {
     fontSize: 18,
     marginBottom: 10,
-  },
-  errorMsg: {
-    fontSize: 18,
-    color: 'red',
-    textAlign: 'center',
   },
 });
 

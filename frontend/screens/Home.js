@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet,View, Text } from "react-native";
+import { FlatList, StyleSheet,View, Text, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Slider from "../constants/Home/Slider";
@@ -24,20 +24,28 @@ const Home = () => {
         throw new Error('Network response was not ok');
       }
       const jsonData = await response.json();
-      setdonationdata(jsonData); // Update state with fetched data
+      setdonationdata(jsonData.data); // Update state with fetched data
+      // consle.log(donationdata);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-
-
-
+  if(donationdata===null){ return (
+      <View >
+        <ActivityIndicator size="large" color="blue" />
+      </View>
+    );}
+    
 
   return (
-    <View style={{width: '100%', height: '100%'}}>
-      <FlatList
-         data={donationdata}
+    <View style={{width:'100%', height: '100%'}}>
+      {donationdata === null ? (
+        <ActivityIndicator size="large" color="blue" />
+      ) : donationdata.length === 0 ? (
+        <Text>No data available</Text>
+      ) : (<FlatList
+        data={donationdata}
         ListHeaderComponent={() =>(
           <View>
             <Slider />
@@ -45,7 +53,8 @@ const Home = () => {
           </View>
       )}
         renderItem={({item}) => <DonationComponent item={item} />}
-    />
+    />)}
+      
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet, ScrollView } from 'react-native'
+import { View, Text,StyleSheet, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Icon, ListItem } from 'react-native-elements'
 import colorValue from '../constants/ColorValue'
@@ -8,13 +8,13 @@ import { color } from 'react-native-elements/dist/helpers'
 import { AntDesign } from '@expo/vector-icons'
 import { getData, getMyObject } from '../global/AsyncStorage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import { useNavigation } from '@react-navigation/native'
 
 
 
 const Profile = () => {
   const [userDetail,setUserDetail]=useState('');
-
+  const navigation=useNavigation();
   useEffect(()=>{
         // do stuff here...
         AsyncStorage.getItem("user")
@@ -25,8 +25,21 @@ const Profile = () => {
 
   // console.log(userDetail)
 
-
+  const Logout = async () => {
+    try {
+      await AsyncStorage.clear(); // Clear all data in AsyncStorage
+      console.log('Logout successfully.');
+      navigation.navigate("Login")
+      Alert.alert('Logout successfully.');
+      // Optionally, you can perform additional actions after clearing data
+    } catch (error) {
+      console.error('Error ', error);
+      // Handle errors, if any
+    }
+  };
   return (
+    
+
     <ScrollView>
       <View>
 
@@ -53,10 +66,10 @@ const Profile = () => {
                 <Text style={[commonStyle({fontSize:14,fontFamily:fontValue.PoppinsRegular}).text,{textAlign:'center'}]}>BloodType</Text>
               </View>
               <View style={style.card}>
-                <Text style={[commonStyle({fontSize:24,fontFamily:fontValue.PoninsBold}).text,{textAlign:'center'}]}>05</Text>
+                <Text style={[commonStyle({fontSize:24,fontFamily:fontValue.PoninsBold}).text,{textAlign:'center'}]}>{userDetail.donationCnt}</Text>
                 <Text style={[commonStyle({fontSize:14,fontFamily:fontValue.PoppinsRegular}).text,{textAlign:'center'}]}>Donated</Text>
               </View><View style={style.card}>
-                <Text style={[commonStyle({fontSize:24,fontFamily:fontValue.PoninsBold}).text,{textAlign:'center'}]}>02</Text>
+                <Text style={[commonStyle({fontSize:24,fontFamily:fontValue.PoninsBold}).text,{textAlign:'center'}]}>{userDetail.requestCnt}</Text>
                 <Text style={[commonStyle({fontSize:14,fontFamily:fontValue.PoppinsRegular}).text,{textAlign:'center'}]}>Requested</Text>
               </View>
         </View>
@@ -80,13 +93,14 @@ const Profile = () => {
               </ListItem>
               
               <ListItem 
-              // onPress={() => navigation.navigate("ResetPassword")}
-              containerStyle={[{marginTop:10 },{marginHorizontal:10}]}bottomDivider>
-                <Icon color={colorValue.primary} name='logout' />
-                <ListItem.Content>
-                  <ListItem.Title>LogOut</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron />
+                // style={{backgroundColor:colorValue.primary}} 
+                onPress={Logout}
+                containerStyle={[{marginTop:10 },{marginHorizontal:10}]}bottomDivider>
+                  <Icon color={colorValue.primary} name='logout' />
+                  <ListItem.Content>
+                    <ListItem.Title>LogOut</ListItem.Title>
+                  </ListItem.Content>
+                  <ListItem.Chevron />
               </ListItem>
         </View>
 

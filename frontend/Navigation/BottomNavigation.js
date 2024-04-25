@@ -14,11 +14,16 @@ import SearchScreen from '../screens/SearchScreen';
 import { commonStyle,commonJustify} from '../constants/commonStyle';
 import fontValue from '../constants/FontValue';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native'
+import UpdateInfo from '../screens/UpdateInfo';
 
 // const Tab = createMaterialBottomTabNavigator();
 const Tab=createBottomTabNavigator();
 
 const BottomNavigation = () => {
+  const navigation=useNavigation();
+  
+
   return (
      <Tab.Navigator
       screenOptions={{
@@ -114,13 +119,26 @@ const BottomNavigation = () => {
           ),
 
           headerRight: () => (
-            <View style={{marginHorizontal:5}}>
+            <View 
+            onPress={() => navigation.navigate("NotificationScreen")}
+            style={{marginHorizontal:5}}>
              <View  >
              {/* <Badge value={10} /> */}
              </View>
               <Fontisto name="bell" size={25} />
             </View>
           ),
+        }}
+      />
+
+        <Tab.Screen
+        name="UpdateInfo"
+        component={UpdateInfo}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Feather name="user" size={24} color={color} />
+          ),
+          title: '',
         }}
       />
 
@@ -149,8 +167,9 @@ const BottomNavigation = () => {
 
           headerRight: () => (
             <View style={{marginHorizontal:5}}
-            onPress={() => navigation.navigate("ResetPassword")}>
-              <Feather name="edit" size={25}/>
+            // onPress={() => navigation.navigate("Login")}
+            >
+            <Feather name="edit" size={25}/>
             </View>
           ),
         }}

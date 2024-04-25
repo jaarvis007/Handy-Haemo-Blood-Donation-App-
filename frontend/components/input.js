@@ -12,6 +12,7 @@ const input = (props) => {
         <TextInput
           {...props}
           style={styles.input}
+          
           placeholder={props.placeholder}
           placeholderTextColor={COLORS.black}
         />

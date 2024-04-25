@@ -22,6 +22,8 @@ import LocationComponent from "./screens/LocationComponent";
 import MapScreen from "./screens/MapScreen";
 import UpdateInfo from "./screens/UpdateInfo";
 import Testing from "./screens/Testing";
+import NotificationScreen from "./constants/Home/NotificationScreen";
+import SearchProfile from "./screens/SearchProfile";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -61,6 +63,7 @@ export default function App() {
 
   return (
     // <Testing/>
+    // <MapScreen/>
     // <FlashScreen/>
     // <BottomNavigation/>
     // <MapScreen/>
@@ -149,6 +152,22 @@ export default function App() {
           component={UpdateInfo}
           
         />
+        <Stack.Screen
+        options={{
+            headerShown: false,
+          }}
+          name="NotificationScreen"
+          component={NotificationScreen}  
+        />
+
+        <Stack.Screen
+        options={{
+            headerShown: false,
+          }}
+          name="SearchProfile"
+          component={SearchProfile}  
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
