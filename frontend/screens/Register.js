@@ -1,4 +1,11 @@
-import { View, Text, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PageContainer from "../components/PageContainer";
@@ -8,15 +15,13 @@ import Button from "../components/Button";
 import Input from "../components/input";
 import Axios from "axios";
 
-
 const Register = ({ navigation }) => {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [location,setLocation]=useState("");
-  const [bloodtype,setBloodType]=useState("");
+  const [location, setLocation] = useState("");
+  const [bloodtype, setBloodType] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,10 +29,10 @@ const Register = ({ navigation }) => {
     try {
       console.log(name, bloodtype, phone, location, email, password);
       if (!email || !password || !name || !phone || !location || !bloodtype) {
-         Alert.alert("Please Provide All Fields");
-         return;
+        Alert.alert("Please Provide All Fields");
+        return;
       }
-      Axios.post("http://172.31.93.14:8080/api/v1/auth/register", {
+      Axios.post("http://172.29.56.89:8080/api/v1/auth/register", {
         name,
         bloodtype,
         phone,
@@ -37,22 +42,20 @@ const Register = ({ navigation }) => {
       })
         .then((response) => {
           if (response.data.success) {
-             console.log(response);
-             Alert.alert("Register Successfull"); 
-             navigation.navigate("Login");
+            console.log(response);
+            Alert.alert("Register Successfull");
+            navigation.navigate("Login");
           }
         })
         .catch((err) => {
-          Alert.alert('Error', err.message); 
+          Alert.alert("Error", err.message);
           console.log(err);
         });
     } catch (err) {
-       Alert.alert('Error', err.message); 
+      Alert.alert("Error", err.message);
       console.log(err);
     }
   };
-
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -101,7 +104,7 @@ const Register = ({ navigation }) => {
                 iconPack={FontAwesome}
                 id="fullname"
                 placeholder="Enter your Name"
-                onChangeText={name => setName(name)}
+                onChangeText={(name) => setName(name)}
                 value={name}
               />
               <Input
@@ -109,7 +112,7 @@ const Register = ({ navigation }) => {
                 iconPack={FontAwesome}
                 id="phone number"
                 placeholder="Enter your phone number"
-                onChangeText={phone => setPhone(phone)}
+                onChangeText={(phone) => setPhone(phone)}
                 value={phone}
               />
 
@@ -118,7 +121,7 @@ const Register = ({ navigation }) => {
                 iconPack={Fontisto}
                 id="bloodtype"
                 placeholder="Enter your blood type"
-                onChangeText={bloodtype => setBloodType(bloodtype)}
+                onChangeText={(bloodtype) => setBloodType(bloodtype)}
                 value={bloodtype}
               />
 
@@ -127,7 +130,7 @@ const Register = ({ navigation }) => {
                 iconPack={MaterialIcons}
                 id="location"
                 placeholder="Enter your location"
-                onChangeText={location => setLocation(location)}
+                onChangeText={(location) => setLocation(location)}
                 value={location}
               />
               <Input
@@ -136,7 +139,7 @@ const Register = ({ navigation }) => {
                 id="email"
                 placeholder="Enter your Email"
                 keyboardType="email-address"
-                onChangeText={email => setEmail(email)}
+                onChangeText={(email) => setEmail(email)}
                 value={email}
               />
               <Input
@@ -146,7 +149,7 @@ const Register = ({ navigation }) => {
                 autoCapitalize="none"
                 placeholder="Enter your Password"
                 secureTextEntry
-                onChangeText={password => setPassword(password)}
+                onChangeText={(password) => setPassword(password)}
                 value={password}
               />
             </View>

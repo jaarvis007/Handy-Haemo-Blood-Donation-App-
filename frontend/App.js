@@ -56,13 +56,12 @@ export default function App() {
     }
   }, [fontsLoaded]);
 
-  
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    // <Testing/>
+    // <Testing />
     // <MapScreen/>
     // <FlashScreen/>
     // <BottomNavigation/>
@@ -137,37 +136,34 @@ export default function App() {
           }}
         />
         <Stack.Screen
-        options={{
+          options={{
             headerShown: false,
           }}
           name="BottomNavigation"
           component={BottomNavigation}
-          
         />
         <Stack.Screen
-        options={{
+          options={{
             headerShown: false,
           }}
           name="UpdateInfo"
           component={UpdateInfo}
-          
         />
         <Stack.Screen
-        options={{
+          options={{
             headerShown: false,
           }}
           name="NotificationScreen"
-          component={NotificationScreen}  
+          component={NotificationScreen}
         />
 
         <Stack.Screen
-        options={{
+          options={{
             headerShown: false,
           }}
           name="SearchProfile"
-          component={SearchProfile}  
+          component={SearchProfile}
         />
-        
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -7,32 +7,35 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import Button from "../components/Button";
 import Input from "../components/input";
 import Axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getData, getMyObject, getMyStringValue, setData, setObjectValue, setStringValue } from "../global/AsyncStorage";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  getData,
+  getMyObject,
+  getMyStringValue,
+  setData,
+  setObjectValue,
+  setStringValue,
+} from "../global/AsyncStorage";
 
 const Login = ({ navigation }) => {
-  
-  const [val,setVal]=useState('');
+  const [val, setVal] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-
     try {
       if (!email || !password) {
         Alert.alert("All fields are mandotary");
       }
       console.log(email, password);
-      Axios.post("http://172.31.93.14:8080/api/v1/auth/login", {
+      Axios.post("http://172.29.56.89:8080/api/v1/auth/login", {
         email,
         password,
       })
         .then((response) => {
           if (response.data.success) {
-            const data=response.data.user;
-            setData('user',response.data.user);         
+            const data = response.data.user;
+            setData("user", response.data.user);
 
             navigation.navigate("BottomNavigation");
             Alert.alert(`Welcome ${data.name}`);
@@ -40,16 +43,15 @@ const Login = ({ navigation }) => {
           }
         })
         .catch((err) => {
-          Alert.alert('Error', err.message); 
+          Alert.alert("Error", err.message);
           console.log(err);
         });
     } catch (err) {
-            Alert.alert('Error', err.message); 
+      Alert.alert("Error", err.message);
 
       console.log(err);
     }
   };
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -93,7 +95,7 @@ const Login = ({ navigation }) => {
               placeholder="Enter your Email"
               autoCapitalize="none"
               keyboardType="email-address"
-              onChangeText={email => setEmail(email)}
+              onChangeText={(email) => setEmail(email)}
               value={email}
             />
 
@@ -104,7 +106,7 @@ const Login = ({ navigation }) => {
               autoCapitalize="none"
               placeholder="Enter your Password"
               secureTextEntry
-              onChangeText={password => setPassword(password)}
+              onChangeText={(password) => setPassword(password)}
               value={password}
             />
           </View>
