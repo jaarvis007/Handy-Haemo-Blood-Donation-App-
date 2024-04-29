@@ -32,15 +32,14 @@ const Register = ({ navigation }) => {
         Alert.alert("Please Provide All Fields");
         return;
       }
-      Axios.post("http://172.29.56.89:8080/api/v1/auth/register", {
+      Axios.post("http://172.31.93.14:8080/api/v1/auth/register", {
         name,
         bloodtype,
         phone,
         location,
         email,
         password,
-      })
-        .then((response) => {
+      }).then((response) => {
           if (response.data.success) {
             console.log(response);
             Alert.alert("Register Successfull");

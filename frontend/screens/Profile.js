@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Avatar, Button, Icon, ListItem } from "react-native-elements";
 import colorValue from "../constants/ColorValue";
@@ -13,29 +13,59 @@ import { useNavigation } from "@react-navigation/native";
 const Profile = () => {
   const [userDetail, setUserDetail] = useState("");
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // do stuff here...
     AsyncStorage.getItem("user").then((data) => {
       setUserDetail(JSON.parse(data));
+      console.log(userDetail)
+      setIsLoading(false);
     });
   }, []);
 
-  // console.log(userDetail)
+  console.log(userDetail)
+
+
+
+   const clearAsyncStorageAndNavigate = async () => {
+    try {
+      setIsLoading(true);
+      await AsyncStorage.clear();
+      // Check if AsyncStorage is empty
+      const keys = await AsyncStorage.getAllKeys();
+      if (keys.length === 0) {
+        // AsyncStorage is empty, navigate to another screen
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+      // Handle error
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const Logout = async () => {
     try {
       await AsyncStorage.clear(); // Clear all data in AsyncStorage
-      console.log("Logout successfully.");
-      navigation.navigate("Login");
-      Alert.alert("Logout successfully.");
+      const keys = await AsyncStorage.getAllKeys();
+      if (keys.length === 0) {
+          navigation.navigate("Login");
+          Alert.alert("Logout successfully.");
+      }
       // Optionally, you can perform additional actions after clearing data
     } catch (error) {
       console.error("Error ", error);
       // Handle errors, if any
     }
   };
+  
   return (
-    <ScrollView>
+    <View>
+        { isLoading ? ( <ActivityIndicator size="large" color="#0000ff" />): 
+    (
+      <ScrollView>
       <View>
         <View style={[commonJustify.rowCenter, { marginVertical: 20 }]}>
           <Avatar
@@ -73,6 +103,7 @@ const Profile = () => {
             buttonStyle={{ backgroundColor: colorValue.info }}
             title="Call Now"
           />
+
           <Button
             buttonStyle={{ backgroundColor: colorValue.primary }}
             title="Request"
@@ -173,7 +204,7 @@ const Profile = () => {
 
           <ListItem
             // style={{backgroundColor:colorValue.primary}}
-            onPress={Logout}
+            onPress={clearAsyncStorageAndNavigate}
             containerStyle={[{ marginTop: 10 }, { marginHorizontal: 10 }]}
             bottomDivider
           >
@@ -185,7 +216,10 @@ const Profile = () => {
           </ListItem>
         </View>
       </View>
-    </ScrollView>
+
+    </ScrollView>)}
+    </View>
+   
   );
 };
 

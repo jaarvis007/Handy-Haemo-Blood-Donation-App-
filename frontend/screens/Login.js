@@ -9,12 +9,7 @@ import Input from "../components/input";
 import Axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-  getData,
-  getMyObject,
-  getMyStringValue,
   setData,
-  setObjectValue,
-  setStringValue,
 } from "../global/AsyncStorage";
 
 const Login = ({ navigation }) => {
@@ -28,7 +23,7 @@ const Login = ({ navigation }) => {
         Alert.alert("All fields are mandotary");
       }
       console.log(email, password);
-      Axios.post("http://172.29.56.89:8080/api/v1/auth/login", {
+      Axios.post("http://172.31.93.14:8080/api/v1/auth/login", {
         email,
         password,
       })
