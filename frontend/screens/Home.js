@@ -19,10 +19,12 @@ const Home = () => {
     fetchData(); // Fetch data when component mounts
   }, []);
 
+  console.log()
+
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://172.29.56.89:8080/api/v1/fetch/data"
+        "http://172.31.93.14:8080/api/v1/fetch/data"
       ); // Replace with your API endpoint
       if (!response.ok) {
         console.warn("Error in response");

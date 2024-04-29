@@ -16,6 +16,30 @@ const DonationReq = () => {
       setdonationRequest(currUser.donationReq);
     });
   }, []);
+  
+  const handleSearch = async () => {
+    // Perform API call with the searchKey
+    // console.log(searchKey);
+    try {
+      const response = await fetch(
+        `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${currUser}`
+      ); // Replace with your API endpoint
+      if (!response.ok) {
+        console.warn("Error in response");
+        throw new Error("Network response was not ok");
+      }
+      const jsonData = await response.json();
+
+      if (jsonData.data.length === 0) {
+        Alert.alert("No Data Found");
+      }
+      setdonationRequest(jsonData.data.donationReq); // Update state with fetched data
+      // consle.log(donationdata);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
 
   console.log(donationRequest);
 

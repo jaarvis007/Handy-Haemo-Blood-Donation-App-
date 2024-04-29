@@ -32,7 +32,7 @@ const DonationReqCard = ({ item }) => {
         Alert.alert("User Not Found");
         return;
       }
-      Axios.post("http://172.29.56.89:8080/api/v1/func/removeReq", {
+      Axios.post("http://172.31.93.14:8080/api/v1/func/removeReq", {
         currUser,
         targetUser,
       })
