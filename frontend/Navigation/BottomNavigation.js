@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableWithoutFeedbackComponent } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import {createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Home, GetStarted } from "../screens";
@@ -13,9 +13,12 @@ import DonationReq from "../screens/DonationReq";
 import SearchScreen from "../screens/SearchScreen";
 import { commonStyle, commonJustify } from "../constants/commonStyle";
 import fontValue from "../constants/FontValue";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { GestureHandlerRootView, TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import UpdateInfo from "../screens/UpdateInfo";
+import { Button } from "react-native-elements";
+import colorValue from "../constants/ColorValue";
+import NotificationScreen from "../constants/Home/NotificationScreen";
 
 // const Tab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
@@ -136,8 +139,8 @@ const BottomNavigation = () => {
       />
 
       {/* <Tab.Screen
-        name="UpdateInfo"
-        component={UpdateInfo}
+        name="Notification"
+        component={NotificationScreen}
         options={{
           tabBarIcon: ({color, size}) => (
             <Feather name="user" size={24} color={color} />
@@ -176,12 +179,20 @@ const BottomNavigation = () => {
           ),
 
           headerRight: () => (
-            <View
+            // <GestureHandlerRootView>
+              
+               <View
               style={{ marginHorizontal: 5 }}
-              // onPress={() => navigation.navigate("Login")}
             >
-              <Feather name="edit" size={25} />
+              <Button
+              title={'Edit'}
+              buttonStyle={{backgroundColor: colorValue.primary}}
+              onPress={() => navigation.navigate("UpdateInfo")}
+              />
+              {/* <Feather name="edit" size={25} /> */}
             </View>
+            // </GestureHandlerRootView>
+           
           ),
         }}
       />

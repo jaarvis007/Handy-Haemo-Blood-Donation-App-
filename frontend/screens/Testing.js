@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
-import * as Location from "expo-location";
+import React from 'react';
+import { WebView } from 'react-native-webview';
 
-const Testing = () => {
-  <Text>Code here</Text>;
+const MyWebView = () => {
+  return (
+    <WebView
+      source={{ uri: 'https://www.google.com/maps/@25.493856,81.8612133,17z?entry=ttu' }}
+      style={{ flex: 1 }}
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      startInLoadingState={true}
+    />
+  );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-});
-
-export default Testing;
+export default MyWebView;

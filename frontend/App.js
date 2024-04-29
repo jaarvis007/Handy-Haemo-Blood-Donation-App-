@@ -24,22 +24,19 @@ import UpdateInfo from "./screens/UpdateInfo";
 import Testing from "./screens/Testing";
 import NotificationScreen from "./constants/Home/NotificationScreen";
 import SearchProfile from "./screens/SearchProfile";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import NearBySearch from "./screens/NearBySearch";
+import WantToDonate from "./screens/WantToDonate";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isFirstLaunch, setisFirstLaunch] = useState(null);
+  const [islogin,setislogin]=useState(null);
 
   useEffect(() => {
-    AsyncStorage.getItem("alreadyLaunched").then((value) => {
-      if (value == null) {
-        AsyncStorage.setItem("alreadyLaunched", "true");
-        setisFirstLaunch(true);
-      } else {
-        setisFirstLaunch(false);
-      }
-    });
+   
   }, []);
 
   const [fontsLoaded] = useFonts({
@@ -67,6 +64,7 @@ export default function App() {
     // <BottomNavigation/>
     // <MapScreen/>
     // <LocationComponent/>
+      // <GestureHandlerRootView>
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator
         // initialRouteName={isFirstLaunch ? "OnBoardingStarter" : "GetStarted"}
@@ -164,8 +162,23 @@ export default function App() {
           name="SearchProfile"
           component={SearchProfile}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="NearBySearch"
+          component={NearBySearch}
+        />
+         <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="WantToDonate"
+          component={WantToDonate}
+        />
       </Stack.Navigator>
     </NavigationContainer>
+      // </GestureHandlerRootView>
   );
 }
 

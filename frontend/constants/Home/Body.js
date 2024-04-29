@@ -11,15 +11,32 @@ import colorValue from '../ColorValue';
 import {commonStyle} from '../commonStyle';
 import fontValue from '../FontValue';
 import {ItemArray} from './Data';
+import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const Body = () => {
+  const navigation=useNavigation();
+
+  const handleOpt=(e)=>{
+    // console.log(e);
+    if(e===1) navigation.navigate("NearBySearch")
+    if(e===2) navigation.navigate("WantToDonate")
+  }
   return (
     <FlatList
       data={ItemArray}
       numColumns={3}
-      renderItem={({item}) => <Card item={item} />}
+      renderItem={({item}) => 
+      <GestureHandlerRootView>
+         <TouchableOpacity
+         onPress={()=>handleOpt(item.id)}
+        >
+        <Card item={item} />
+      </TouchableOpacity>
+      </GestureHandlerRootView>
+     }
     />
   );
 };
