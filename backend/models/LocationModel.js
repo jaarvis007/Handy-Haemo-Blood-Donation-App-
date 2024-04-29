@@ -1,34 +1,27 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const LocationSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      require:true
-      },
-    email: {
+    email:{
       type: String,
       required: [true, "email is required"],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, "password is requied"],
+    coords: {
+    accuracy: Number,
+    altitude: Number,
+    altitudeAccuracy: Number,
+    heading: Number,
+    latitude: Number,
+    longitude: Number,
+    speed: Number
     },
-    bloodtype:{
-      type: String,
-      required: [true, "bloodtype is requied"],
+    visible:{
+      type:Boolean,
+      
     },
-    location: {
-      type: String,
-      required: [true, "address is required"],
-    },
-    phone: {
-      type: String,
-      required: [true, "phone number is required"],
-    },
-  },
-  { timestamps: true }
-);
+    mocked: Boolean,
+    timestamp: Date,
+  });
 
-module.exports = mongoose.model("userLocation", userSchema);
+module.exports = mongoose.model("userLocation", LocationSchema);

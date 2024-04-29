@@ -25,6 +25,7 @@ app.use("/api/v1/test", require("./routes/testRoutes"));
 app.use("/api/v1/auth", require("./routes/authRoutes"));
 app.use("/api/v1/fetch", require("./routes/fetchRoutes"));
 app.use("/api/v1/func", require("./routes/funcRoutes"));
+app.use("/api/v1/location",require("./routes/locationRoutes"));
 
 app.listen(PORT, () => {
   console.log(`Server Running on ${PORT}`.bgBlue.white);
