@@ -39,7 +39,7 @@ const SearchProfile = (profileData) => {
       }
 
       console.log(currUser, targetUser);
-      Axios.post("http://172.29.56.89:8080/api/v1/func/sendReq", {
+      Axios.post("http://172.31.93.14:8080/api/v1/func/sendReq", {
         currUser,
         targetUser,
       })

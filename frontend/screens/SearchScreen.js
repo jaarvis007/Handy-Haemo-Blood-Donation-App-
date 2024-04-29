@@ -20,7 +20,7 @@ const SearchScreen = () => {
     console.log(searchKey);
     try {
       const response = await fetch(
-        `http://172.29.56.89:8080/api/v1/fetch/search?searchItem=${searchKey}`
+        `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${searchKey}`
       ); // Replace with your API endpoint
       if (!response.ok) {
         console.warn("Error in response");
@@ -49,26 +49,6 @@ const SearchScreen = () => {
           marginRight: 10,
         }}
       >
-        {/* <SearchBar
-      placeholder='Enter Username To Search'
-      onChangeText={text=>setSearchKey(text)}
-      value={searchKey}
-
-      onSubmitEditing={handleSearch}
-      
-      containerStyle={{
-        backgroundColor:colorValue.white,
-        borderTopWidth:0,
-        borderBottomWidth:0,
-        width:windowWidth*0.8,
-      }}
-      inputStyle={{
-        backgroundColor:colorValue.white,
-      }}
-      leftIconContainerStyle={{
-        backgroundColor:colorValue.primary 
-      }}
-      /> */}
         <Searchbar
           placeholder="Search"
           onChangeText={(text) => setSearchKey(text)}
