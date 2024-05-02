@@ -34,9 +34,8 @@ router.post("/sendReq", async (req, res) => {
         message: "Request already sent to this user",
       });
     }
-
     // Push currUser into donationReq array
-    user.donationReq.push(currUser);
+    user.donationReq.push(currUser.email);
 
     // Save the updated user
     const updatedUser = await user.save();

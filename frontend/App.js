@@ -27,16 +27,17 @@ import SearchProfile from "./screens/SearchProfile";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NearBySearch from "./screens/NearBySearch";
 import WantToDonate from "./screens/WantToDonate";
+import { UserProvider } from './global/userContext';
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isFirstLaunch, setisFirstLaunch] = useState(null);
-  const [islogin,setislogin]=useState(null);
+  const [islogin, setislogin] = useState(null);
 
   useEffect(() => {
-   
+
   }, []);
 
   const [fontsLoaded] = useFonts({
@@ -64,121 +65,123 @@ export default function App() {
     // <BottomNavigation/>
     // <MapScreen/>
     // <LocationComponent/>
-      // <GestureHandlerRootView>
-    <NavigationContainer onReady={onLayoutRootView}>
-      <Stack.Navigator
-        // initialRouteName={isFirstLaunch ? "OnBoardingStarter" : "GetStarted"}
-        initialRouteName={Login}
-      >
-        <Stack.Screen
-          name="OnBoardingStarter"
-          component={OnBoardingStarter}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="OTPVerification"
-          component={OTPVerification}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="SucessVerification"
-          component={SucessVerification}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="GetStarted"
-          component={GetStarted}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="FlashScreen"
-          component={FlashScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="BottomNavigation"
-          component={BottomNavigation}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="UpdateInfo"
-          component={UpdateInfo}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="NotificationScreen"
-          component={NotificationScreen}
-        />
+    // <GestureHandlerRootView>
+    <UserProvider>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <Stack.Navigator
+          // initialRouteName={isFirstLaunch ? "OnBoardingStarter" : "GetStarted"}
+          initialRouteName={Login}
+        >
+          <Stack.Screen
+            name="OnBoardingStarter"
+            component={OnBoardingStarter}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPassword}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="OTPVerification"
+            component={OTPVerification}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SucessVerification"
+            component={SucessVerification}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="GetStarted"
+            component={GetStarted}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="FlashScreen"
+            component={FlashScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="BottomNavigation"
+            component={BottomNavigation}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="UpdateInfo"
+            component={UpdateInfo}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="NotificationScreen"
+            component={NotificationScreen}
+          />
 
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="SearchProfile"
-          component={SearchProfile}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="NearBySearch"
-          component={NearBySearch}
-        />
-         <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="WantToDonate"
-          component={WantToDonate}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-      // </GestureHandlerRootView>
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="SearchProfile"
+            component={SearchProfile}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="NearBySearch"
+            component={NearBySearch}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="WantToDonate"
+            component={WantToDonate}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
+    // </GestureHandlerRootView>
   );
 }
 

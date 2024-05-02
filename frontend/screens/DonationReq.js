@@ -6,42 +6,45 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DonationReq = () => {
   const [donationRequest, setdonationRequest] = useState("");
-  const [currUser, setCurrUser] = useState("");
-  // const navigation = useNavigation();
 
   useEffect(() => {
-    // do stuff here...
-    AsyncStorage.getItem("user").then((data) => {
-      setCurrUser(JSON.parse(data));
-      setdonationRequest(currUser.donationReq);
-    });
+
+    const keys = AsyncStorage.getAllKeys();
+    if (keys.length === 0) return;
+
+    const fetchData = async () => {
+      try {
+        const data = await AsyncStorage.getItem("user");
+        const user = JSON.parse(data);
+
+        try {
+          const response = await fetch(
+            `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${user.email}`
+          ); // Replace with your API endpoint
+          if (!response.ok) {
+            console.warn("Error in response");
+            throw new Error("Network response was not ok");
+          }
+          const jsonData = await response.json();
+          setdonationRequest(jsonData.data[0].donationReq); // Update state with fetched data
+          // console.log(jsonData.data[0].donationReq);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    // Poll AsyncStorage every 5 seconds for changes
+    // const intervalId = setInterval(fetchData, 5000);
+    // return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
-  
-  const handleSearch = async () => {
-    // Perform API call with the searchKey
-    // console.log(searchKey);
-    try {
-      const response = await fetch(
-        `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${currUser}`
-      ); // Replace with your API endpoint
-      if (!response.ok) {
-        console.warn("Error in response");
-        throw new Error("Network response was not ok");
-      }
-      const jsonData = await response.json();
 
-      if (jsonData.data.length === 0) {
-        Alert.alert("No Data Found");
-      }
-      setdonationRequest(jsonData.data.donationReq); // Update state with fetched data
-      // consle.log(donationdata);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
 
-  console.log(donationRequest);
+  console.log(donationRequest)
 
   return (
     // <ScrollView>-b

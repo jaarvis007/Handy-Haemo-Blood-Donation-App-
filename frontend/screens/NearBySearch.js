@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet,FlatList,ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
+import { WebView } from 'react-native-webview';
 
 export default function NearBySearch() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [nearbyPlaces, setNearbyPlaces] = useState([]);
+  const [currlocation, setcurrLocation] = useState(null);
+  const [nearbyLocation, setnearByLocation] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -18,99 +16,114 @@ export default function NearBySearch() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      
+      setcurrLocation(location);
+      console.log(location);
     })();
+
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://172.31.93.14:8080/api/v1/location/getLocations"
+      ); // Replace with your API endpoint
+      if (!response.ok) {
+        console.warn("Error in response");
+        throw new Error("Network response was not ok");
+      }
+      const jsonData = await response.json();
+      setnearByLocation(jsonData.data); // Update state with fetched data
+      console.log(nearbyLocation[0].email);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const recenterMap = () => {
+    if (currlocation) {
+      webViewRef.current.injectJavaScript(`
+        map.setView([${currlocation.coords.latitude},${currlocation.coords.longitude}], 15);
+      `);
+    }
+  };
+
+  const webViewRef = React.useRef(null);
+
   return (
-    <View>
-      <MapView
-    style={{width:'100%',height:'100%'}}
-  initialRegion={{
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }}
-/>
+    <View style={styles.container}>
+      {currlocation ? (
+        <>
+          <WebView
+            ref={webViewRef}
+            originWhitelist={['*']}
+            source={{
+              html: `<html>
+                      <head>
+                          <meta charset="utf-8" />
+                          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                          <style>html, body { margin: 0; padding: 0; }</style>
+                      </head>
+                      <body>
+                          <div id="map" style="width: 100%; height: 100%;"></div>
+                          <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+                          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+                          <script>
+                              var map = L.map('map').setView([${currlocation.coords.latitude},${currlocation.coords.longitude}], 15);
+                              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                              }).addTo(map);
+                              
+                               L.marker([${currlocation.coords.latitude}, ${currlocation.coords.longitude}]).addTo(map).bindPopup('You');
+                              // Add markers
+                             var nearbyLocations = ${JSON.stringify(nearbyLocation)};
+                              nearbyLocations.forEach(function(
+                                  L.marker([location.latitude, location.longitude]).addTo(map).bindPopup(location.name);
+                              });
+                          </script>
+                      </body>
+                  </html>`
+            }}
+            style={styles.map}
+          />
+          <TouchableOpacity style={styles.button} onPress={recenterMap}>
+            <Text style={styles.buttonText}>Recenter</Text>
+          </TouchableOpacity>
+        </>
+      ) : (<><ActivityIndicator /></>)}
     </View>
-    
-    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    width: '100%',
+    height: '100%',
   },
-  paragraph: {
-    fontSize: 18,
-    textAlign: 'center',
+  map: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
   },
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  button2: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+  }
 });
-
-// const NearbySearchScreen = () => {
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [nearbyPlaces, setNearbyPlaces] = useState([]);
-
-//   useEffect(() => {
-//     // Get user's current location
-//     Geolocation.getCurrentPosition(
-//       (position) => {
-//         const { latitude, longitude } = position.coords;
-//         fetchNearbyPlaces(latitude, longitude);
-//       },
-//       (error) => console.error(error),
-//       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-//     );
-//   }, []);
-
-//   const fetchNearbyPlaces = async (latitude, longitude) => {
-//     try {
-//       // Call your backend service or third-party API to get nearby places
-//       // Example: const response = await fetch(`YOUR_API_URL?lat=${latitude}&lng=${longitude}`);
-//       // const data = await response.json();
-//       // setNearbyPlaces(data);
-//       // setIsLoading(false);
-      
-//       // Simulated data for demonstration
-//       const simulatedData = [
-//         { id: '1', name: 'Place 1', distance: '0.3 miles' },
-//         { id: '2', name: 'Place 2', distance: '0.5 miles' },
-//         { id: '3', name: 'Place 3', distance: '0.8 miles' },
-//       ];
-//       setNearbyPlaces(simulatedData);
-//       setIsLoading(false);
-//     } catch (error) {
-//       console.error('Error fetching nearby places:', error);
-//       setIsLoading(false);
-//     }
-//   };
-
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       {isLoading ? (
-//         <ActivityIndicator size="large" color="#0000ff" />
-//       ) : (
-//         <FlatList
-//           data={nearbyPlaces}
-//           renderItem={({ item }) => (
-//             <View style={{ padding: 10 }}>
-//               <Text>{item.name}</Text>
-//               <Text>{item.distance}</Text>
-//             </View>
-//           )}
-//           keyExtractor={(item) => item.id}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-
-// export default NearbySearchScreen;
-
-

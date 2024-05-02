@@ -45,7 +45,9 @@
     "react-native-swiper-flatlist": "^3.2.3",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
-    "react-native-webview": "^13.8.6"
+    "react-native-webview": "^13.8.6",
+    "expo-device": "~5.9.4",
+    "expo-notifications": "~0.27.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
