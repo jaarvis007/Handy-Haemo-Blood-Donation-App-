@@ -28,6 +28,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NearBySearch from "./screens/NearBySearch";
 import WantToDonate from "./screens/WantToDonate";
 import { UserProvider } from './global/userContext';
+import EligibilityCheck from "./screens/EligibilityCheck";
+import 'dotenv/config'
+require('dotenv').config()
+
+console.log(process.env.CLIENT_URL);
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -59,6 +64,7 @@ export default function App() {
   }
 
   return (
+    // <EligibilityCheck />
     // <Testing />
     // <MapScreen/>
     // <FlashScreen/>
@@ -177,6 +183,13 @@ export default function App() {
             }}
             name="WantToDonate"
             component={WantToDonate}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="EligibilityCheck"
+            component={EligibilityCheck}
           />
         </Stack.Navigator>
       </NavigationContainer>

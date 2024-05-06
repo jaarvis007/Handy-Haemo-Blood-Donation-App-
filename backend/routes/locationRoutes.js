@@ -61,19 +61,20 @@ router.post('/update-location', async (req, res) => {
 
 
 router.get('/nearest', async (req, res) => {
-  const { latitude, longitude } = req.query;
+  const { latitude, longitude, range } = req.query;
 
   // Log the received query parameters
   console.log(req.query);
 
-  // Check if latitude and longitude are provided
-  if (!latitude || !longitude) {
-    return res.status(400).json({ message: 'Latitude and longitude are required' });
+  // Check if latitude, longitude, and range are provided
+  if (!latitude || !longitude || !range) {
+    return res.status(400).json({ message: 'Latitude, longitude, and range are required' });
   }
 
-  // Parse latitude and longitude as floats
+  // Parse latitude, longitude, and range as floats
   const lat = parseFloat(latitude);
   const lon = parseFloat(longitude);
+  const rang = parseFloat(range);
 
   // Query the database to find all locations
   try {
@@ -88,17 +89,21 @@ router.get('/nearest', async (req, res) => {
       return { ...location, distance };
     });
 
-    // Sort locations by distance in ascending order
-    locationsWithDistance.sort((a, b) => a.distance - b.distance);
+    // Filter locations by distance based on the provided range
+    const nearbyLocations = locationsWithDistance.filter(location => location.distance <= rang);
 
-    // Return the nearest location
-    res.json(locationsWithDistance);
+    // Sort nearby locations by distance in ascending order
+    nearbyLocations.sort((a, b) => a.distance - b.distance);
+
+    // Return the nearby locations within the specified range
+    res.json(nearbyLocations);
   } catch (error) {
     // Handle any errors
-    console.error('Error fetching nearest location:', error);
+    console.error('Error fetching nearest locations:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 

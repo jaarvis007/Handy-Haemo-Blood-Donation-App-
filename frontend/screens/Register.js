@@ -40,12 +40,12 @@ const Register = ({ navigation }) => {
         email,
         password,
       }).then((response) => {
-          if (response.data.success) {
-            console.log(response);
-            Alert.alert("Register Successfull");
-            navigation.navigate("Login");
-          }
-        })
+        if (response.data.success) {
+          console.log(response);
+          Alert.alert("Register Successfull");
+          navigation.navigate("Login");
+        }
+      })
         .catch((err) => {
           Alert.alert("Error", err.message);
           console.log(err);
