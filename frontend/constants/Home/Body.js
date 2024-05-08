@@ -24,6 +24,7 @@ const Body = () => {
     if (e === 1) navigation.navigate("NearBySearch")
     if (e === 2) navigation.navigate("WantToDonate")
     if (e === 4) navigation.navigate("EligibilityCheck")
+    if (e === 6) navigation.navigate("AboutUsPage")
 
   }
   return (

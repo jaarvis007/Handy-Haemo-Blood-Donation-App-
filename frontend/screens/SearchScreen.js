@@ -5,13 +5,13 @@ import { commonJustify } from "../constants/commonStyle";
 import AntDesign from "react-native-vector-icons/AntDesign";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-import MapView from "react-native-maps";
 // import { searchData } from '../constants/Home/Data'
 import SearchComponent from "./SeachComponent";
 import colorValue from "../constants/ColorValue";
 import { Searchbar } from "react-native-paper";
 
 const SearchScreen = () => {
+
   const [searchKey, setSearchKey] = useState("");
   const [searchData, setSearchData] = useState("");
 
@@ -20,7 +20,7 @@ const SearchScreen = () => {
     console.log(searchKey);
     try {
       const response = await fetch(
-        `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${searchKey}`
+        `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/fetch/search?searchItem=${searchKey}`
       ); // Replace with your API endpoint
       if (!response.ok) {
         console.warn("Error in response");
@@ -54,7 +54,7 @@ const SearchScreen = () => {
           onChangeText={(text) => setSearchKey(text)}
           value={searchKey}
           onSubmitEditing={handleSearch}
-          // onClearIconPress={setSearchKey()}
+        // onClearIconPress={setSearchKey()}
         />
       </View>
 

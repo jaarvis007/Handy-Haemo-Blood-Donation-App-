@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import Axios from "axios";
-
 import { Button } from "react-native-elements";
 import colorValue from "../ColorValue";
 import { commonJustify, commonStyle } from "../commonStyle";
@@ -19,20 +18,24 @@ const DonationReqCard = ({ item }) => {
     });
   }, []);
 
-  const handleReg = (e) => {
+  const handleAcceptReg = (e) => {
     setTargetUser(e);
-    generateReq();
+    generateAcceptReq();
   };
 
-  const generateReq = (e) => {
-    // e.preventDefault();
+  const handleRejectReg = (e) => {
+    setTargetUser(e);
+    generateRejectReq();
+  };
 
+  const generateAcceptReq = (e) => {
+    // e.preventDefault();
     try {
       if (!currUser || !targetUser) {
-        Alert.alert("User Not Found");
+        Alert.alert("Try Again Please...");
         return;
       }
-      Axios.post("http://172.31.93.14:8080/api/v1/func/removeReq", {
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/func/acceptReq`, {
         currUser,
         targetUser,
       })
@@ -43,7 +46,34 @@ const DonationReqCard = ({ item }) => {
           }
         })
         .catch((err) => {
-          Alert.alert("Error", err.message);
+          Alert.alert("Error", err);
+          console.log(err);
+        });
+    } catch (err) {
+      Alert.alert("Error", err.message);
+      console.log(err);
+    }
+  };
+
+  const generateRejectReq = (e) => {
+    // e.preventDefault();
+    try {
+      if (!currUser || !targetUser) {
+        Alert.alert("Try Again Please...");
+        return;
+      }
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/func/rejectReq`, {
+        currUser,
+        targetUser,
+      })
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response);
+            Alert.alert("Requested Successfull");
+          }
+        })
+        .catch((err) => {
+          Alert.alert("Error", err);
           console.log(err);
         });
     } catch (err) {
@@ -89,13 +119,13 @@ const DonationReqCard = ({ item }) => {
           source={require("../../assets/images/img2/BloodGroup.png")}
         /> */}
         <Button
-          onPress={() => handleReg(item)}
+          onPress={() => handleAcceptReg(item)}
           titleStyle={{ color: colorValue.primary }}
           type="clear"
           title="Accept"
         />
         <Button
-          onPress={() => console.log(item.name)}
+          onPress={() => handleRejectReg(item)}
           titleStyle={{ color: colorValue.primary }}
           type="clear"
           title="Reject"

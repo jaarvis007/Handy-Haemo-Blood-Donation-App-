@@ -14,6 +14,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 const SearchProfile = (profileData) => {
   const userDetail = profileData.route.params.item;
+  // console.log(userDetail);
   const [targetUser, setTargetUser] = useState("");
   const [currUser, setCurrUser] = useState("");
   const navigation = useNavigation();
@@ -43,7 +44,7 @@ const SearchProfile = (profileData) => {
       }
 
       console.log(currUser, targetUser);
-      Axios.post("http://172.31.93.14:8080/api/v1/func/sendReq", {
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/func/sendReq`, {
         currUser,
         targetUser,
       })

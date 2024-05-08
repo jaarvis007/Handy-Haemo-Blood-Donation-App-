@@ -46,7 +46,7 @@ export default function NearBySearch() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://172.31.93.14:8080/api/v1/location/nearest?latitude=${lat}&longitude=${long}&range=${range}`
+        `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/location/nearest?latitude=${lat}&longitude=${long}&range=${range * 1000}`
       ); // Replace with your API endpoint
 
       if (!response.ok) {
@@ -55,7 +55,10 @@ export default function NearBySearch() {
       }
       const jsonData = await response.json();
       setnearByLocation(jsonData); // Update state with fetched data
-      console.log(jsonData);
+      jsonData.map(obj => {
+        console.log(obj.name);
+      })
+      // console.log(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -140,7 +143,7 @@ export default function NearBySearch() {
                       <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
                       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
                       <script>
-                          var map = L.map('map').setView([${currlocation.coords.latitude},${currlocation.coords.longitude}], 15);
+                          var map = L.map('map').setView([${currlocation.coords.latitude},${currlocation.coords.longitude}], ${15.357-0.0357*range});
                           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                           }).addTo(map);
@@ -148,7 +151,7 @@ export default function NearBySearch() {
                            L.marker([${currlocation.coords.latitude}, ${currlocation.coords.longitude}]).addTo(map).bindPopup('You');
                            
                            var nearbyMarkers = ${JSON.stringify(nearbyLocation)}.map(obj => {
-                              return L.marker([obj.coords.latitude, obj.coords.longitude]).addTo(map).bindPopup(obj.email+" "+obj.distance+" "+ 'meters away');
+                              return L.marker([obj.coords.latitude, obj.coords.longitude]).addTo(map).bindPopup(obj.name+" "+obj.distance/1000+" "+ 'km away');
                             });
 
                       </script>
@@ -164,9 +167,9 @@ export default function NearBySearch() {
             <Text style={styles.sliderLabel}>Range: {range} km</Text>
             <Slider
               style={styles.slider}
-              minimumValue={1}
-              maximumValue={100}
-              step={1}
+              minimumValue={10}
+              maximumValue={150}
+              step={5}
               value={range}
               onValueChange={setRange}
             />

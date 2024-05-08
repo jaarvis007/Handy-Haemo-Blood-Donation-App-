@@ -53,7 +53,7 @@ const Profile = () => {
       await AsyncStorage.clear(); // Clear all data in AsyncStorage
       const keys = await AsyncStorage.getAllKeys();
       if (keys.length === 0) {
-        navigation.navigate("Login");
+        navigation.navigate("OnBoardingScreen");
         Alert.alert("Logout successfully.");
       }
       // Optionally, you can perform additional actions after clearing data
@@ -100,7 +100,7 @@ const Profile = () => {
                 </Text>
               </View>
 
-              <View style={[commonJustify.rowSpaceEvenly, { marginVertical: 20 }]}>
+              {/* <View style={[commonJustify.rowSpaceEvenly, { marginVertical: 20 }]}>
                 <Button
                   buttonStyle={{ backgroundColor: colorValue.info }}
                   title="Call Now"
@@ -110,7 +110,7 @@ const Profile = () => {
                   buttonStyle={{ backgroundColor: colorValue.primary }}
                   title="Request"
                 />
-              </View>
+              </View> */}
 
               <View style={commonJustify.rowSpaceEvenly}>
                 <View style={style.card}>

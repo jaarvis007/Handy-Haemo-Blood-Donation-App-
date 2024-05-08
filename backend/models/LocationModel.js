@@ -9,6 +9,11 @@ const LocationSchema = new mongoose.Schema(
       trim: true, // Trim whitespace from the beginning and end of the email
       lowercase: true, // Convert email to lowercase
     },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+      unique: true,
+    },
     coords: {
       type: {
         accuracy: { type: Number, default: 0 }, // Set default value for accuracy

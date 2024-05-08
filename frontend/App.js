@@ -18,19 +18,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Onboarding from "react-native-onboarding-swiper";
 import FlashScreen from "./Flash/FlashScreen";
 import BottomNavigation from "./Navigation/BottomNavigation";
-import LocationComponent from "./screens/LocationComponent";
-import MapScreen from "./screens/MapScreen";
 import UpdateInfo from "./screens/UpdateInfo";
 import Testing from "./screens/Testing";
-import NotificationScreen from "./constants/Home/NotificationScreen";
+import NotificationScreen from "./screens/NotificationScreen";
 import SearchProfile from "./screens/SearchProfile";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NearBySearch from "./screens/NearBySearch";
 import WantToDonate from "./screens/WantToDonate";
 import { UserProvider } from './global/userContext';
 import EligibilityCheck from "./screens/EligibilityCheck";
-import 'dotenv/config'
-require('dotenv').config()
+import AboutUsPage from "./screens/AboutUsPage";
+// import 'dotenv/config'
+// require('dotenv').config()
 
 console.log(process.env.CLIENT_URL);
 
@@ -69,6 +68,7 @@ export default function App() {
     // <MapScreen/>
     // <FlashScreen/>
     // <BottomNavigation/>
+    // <NotificationScreen />
     // <MapScreen/>
     // <LocationComponent/>
     // <GestureHandlerRootView>
@@ -190,6 +190,13 @@ export default function App() {
             }}
             name="EligibilityCheck"
             component={EligibilityCheck}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="AboutUsPage"
+            component={AboutUsPage}
           />
         </Stack.Navigator>
       </NavigationContainer>

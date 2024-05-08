@@ -13,6 +13,9 @@ import {
 } from "../global/AsyncStorage";
 
 const Login = ({ navigation }) => {
+
+
+  // console.log(AsyncStorage.getAllKeys.length===0)
   const [val, setVal] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +26,7 @@ const Login = ({ navigation }) => {
         Alert.alert("All fields are mandotary");
       }
       console.log(email, password);
-      Axios.post("http://172.31.93.14:8080/api/v1/auth/login", {
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/login`, {
         email,
         password,
       })

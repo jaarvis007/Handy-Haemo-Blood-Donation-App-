@@ -22,9 +22,10 @@ router.get("/getLocations", async (req, res) => {
 });
 
 router.post('/update-location', async (req, res) => {
+  console.log(req.body);
   try {
     // Extract latitude, longitude, and other data from the request body
-    const { email, coords, mocked, timestamp, visible } = req.body;
+    const { email, name, coords, mocked, timestamp, visible } = req.body;
 
     // Check if a document with the email already exists in the database
     let existingLocation = await Location.findOne({ email });
@@ -35,6 +36,7 @@ router.post('/update-location', async (req, res) => {
       existingLocation.mocked = mocked;
       existingLocation.timestamp = timestamp;
       existingLocation.visible = visible;
+      existingLocation.name = name;
 
       // Save the updated location document
       await existingLocation.save();
@@ -42,6 +44,7 @@ router.post('/update-location', async (req, res) => {
     } else {
       // If the document doesn't exist, create a new location document
       const newLocation = new Location({
+        name,
         email,
         coords,
         mocked,

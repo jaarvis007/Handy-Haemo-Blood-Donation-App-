@@ -18,7 +18,6 @@ import { useNavigation } from "@react-navigation/native";
 import UpdateInfo from "../screens/UpdateInfo";
 import { Button } from "react-native-elements";
 import colorValue from "../constants/ColorValue";
-import NotificationScreen from "../constants/Home/NotificationScreen";
 
 // const Tab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,10 +50,14 @@ const BottomNavigation = () => {
           ),
 
           headerRight: () => (
-            <View style={{ marginHorizontal: 5 }}>
-              <View>{/* <Badge value={10} /> */}</View>
-              <Fontisto name="bell" size={25} />
-            </View>
+            <GestureHandlerRootView>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NotificationScreen")}
+                style={{ marginHorizontal: 5 }}>
+                <View>{/* <Badge value={10} /> */}</View>
+                <Fontisto name="bell" size={25} />
+              </TouchableOpacity>
+            </GestureHandlerRootView>
           ),
         }}
       />
@@ -89,10 +92,14 @@ const BottomNavigation = () => {
           ),
 
           headerRight: () => (
-            <View style={{ marginHorizontal: 5 }}>
-              <View>{/* <Badge value={10} /> */}</View>
-              <Fontisto name="bell" size={25} />
-            </View>
+            <GestureHandlerRootView>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NotificationScreen")}
+                style={{ marginHorizontal: 5 }}>
+                <View>{/* <Badge value={10} /> */}</View>
+                <Fontisto name="bell" size={25} />
+              </TouchableOpacity>
+            </GestureHandlerRootView>
           ),
         }}
       />
@@ -127,13 +134,14 @@ const BottomNavigation = () => {
           ),
 
           headerRight: () => (
-            <View
-              onPress={() => navigation.navigate("NotificationScreen")}
-              style={{ marginHorizontal: 5 }}
-            >
-              <View>{/* <Badge value={10} /> */}</View>
-              <Fontisto name="bell" size={25} />
-            </View>
+            <GestureHandlerRootView>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NotificationScreen")}
+                style={{ marginHorizontal: 5 }}>
+                <View>{/* <Badge value={10} /> */}</View>
+                <Fontisto name="bell" size={25} />
+              </TouchableOpacity>
+            </GestureHandlerRootView>
           ),
         }}
       />
@@ -180,19 +188,19 @@ const BottomNavigation = () => {
 
           headerRight: () => (
             // <GestureHandlerRootView>
-              
-               <View
+
+            <View
               style={{ marginHorizontal: 5 }}
             >
               <Button
-              title={'Edit'}
-              buttonStyle={{backgroundColor: colorValue.primary}}
-              onPress={() => navigation.navigate("UpdateInfo")}
+                title={'Edit'}
+                buttonStyle={{ backgroundColor: colorValue.primary }}
+                onPress={() => navigation.navigate("UpdateInfo")}
               />
               {/* <Feather name="edit" size={25} /> */}
             </View>
             // </GestureHandlerRootView>
-           
+
           ),
         }}
       />

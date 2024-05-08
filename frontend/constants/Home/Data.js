@@ -29,7 +29,7 @@ export const ItemArray = [
     },
     {
         id: 6,
-        title: 'Campains',
+        title: 'About Us',
         image: require('../../assets/images/img2/grommet-icons_announce.png'),
     },
 ];

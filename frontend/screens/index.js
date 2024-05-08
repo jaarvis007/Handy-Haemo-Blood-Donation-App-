@@ -7,6 +7,7 @@ import Register from "./Register";
 import ResetPassword from "./ResetPassword";
 import SucessVerification from "./SucessVerification";
 
+
 export {
   GetStarted,
   Home,

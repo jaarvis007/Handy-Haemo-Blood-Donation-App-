@@ -11,6 +11,7 @@ import Slider from "../constants/Home/Slider";
 import Body from "../constants/Home/Body";
 import DonationComponent from "../constants/Home/DonationComponent";
 // import { donationdata } from "../constants/Home/Data";
+// import 'dotenv/config';
 
 const Home = () => {
   const [donationdata, setdonationdata] = useState(null);
@@ -19,12 +20,10 @@ const Home = () => {
     fetchData(); // Fetch data when component mounts
   }, []);
 
-  console.log()
-
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://172.31.93.14:8080/api/v1/fetch/data"
+        `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/fetch/data`
       ); // Replace with your API endpoint
       if (!response.ok) {
         console.warn("Error in response");

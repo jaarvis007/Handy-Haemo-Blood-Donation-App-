@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
         Alert.alert("Please Provide All Fields");
         return;
       }
-      Axios.post("http://172.31.93.14:8080/api/v1/auth/register", {
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/register`, {
         name,
         bloodtype,
         phone,

@@ -19,7 +19,7 @@ const DonationReq = () => {
 
         try {
           const response = await fetch(
-            `http://172.31.93.14:8080/api/v1/fetch/search?searchItem=${user.email}`
+            `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/fetch/search?searchItem=${user.email}`
           ); // Replace with your API endpoint
           if (!response.ok) {
             console.warn("Error in response");
@@ -39,8 +39,8 @@ const DonationReq = () => {
     fetchData();
 
     // Poll AsyncStorage every 5 seconds for changes
-    // const intervalId = setInterval(fetchData, 5000);
-    // return () => clearInterval(intervalId); // Cleanup interval on unmount
+    const intervalId = setInterval(fetchData, 5000);
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
 
