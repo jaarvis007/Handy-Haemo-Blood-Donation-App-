@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "script": "nodemon server.js"
+    "script": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,8 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.0"
+    "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0",
+    "otp-generator": "^4.0.1"
   }
 }

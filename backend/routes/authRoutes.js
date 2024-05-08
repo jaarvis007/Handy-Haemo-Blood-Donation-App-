@@ -3,13 +3,14 @@ const {
   registerController,
   loginController,
   currentUserController,
-  UpdateController,
+  UpdateController,sendOTP
 } = require("../controllers/authController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const userModel = require("../models/userModel");
 const router = express.Router();
 router.post("/register", registerController);
 router.post("/login", loginController);
+router.post("/sendotp", sendOTP);
 // router.post("/upd", UpdateController);
 
 
