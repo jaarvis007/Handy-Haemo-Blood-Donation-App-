@@ -12,21 +12,21 @@ export const ItemArray = [
         title: 'Donates',
         image: require('../../assets/images/img2/openmoji_blood-transfusion.png'),
     },
+    // {
+    //     id: 3,
+    //     title: 'Order Bloods',
+    //     image: require('../../assets/images/img2/si-glyph_blood-bag.png'),
+    // },
     {
-        id: 3,
-        title: 'Order Bloods',
-        image: require('../../assets/images/img2/si-glyph_blood-bag.png'),
-    },
-    {
-        id: 4,
+        id: 5,
         title: 'Check Eligiblity',
         image: require('../../assets/images/img2/maki_doctor-11.png'),
     },
-    {
-        id: 5,
-        title: 'Report',
-        image: require('../../assets/images/img2/la_file-medical-alt.png'),
-    },
+    // {
+    //     id: 5,
+    //     title: 'Report',
+    //     image: require('../../assets/images/img2/la_file-medical-alt.png'),
+    // },
     {
         id: 6,
         title: 'About Us',

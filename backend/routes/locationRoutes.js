@@ -62,7 +62,6 @@ router.post('/update-location', async (req, res) => {
   }
 });
 
-
 router.get('/nearest', async (req, res) => {
   const { latitude, longitude, range } = req.query;
 
@@ -93,7 +92,7 @@ router.get('/nearest', async (req, res) => {
     });
 
     // Filter locations by distance based on the provided range
-    const nearbyLocations = locationsWithDistance.filter(location => location.distance <= rang);
+    const nearbyLocations = locationsWithDistance.filter(location => location.distance <= rang && location.visible === true && location.distance!==0);
 
     // Sort nearby locations by distance in ascending order
     nearbyLocations.sort((a, b) => a.distance - b.distance);
@@ -106,10 +105,5 @@ router.get('/nearest', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-
-
-
-
 
 module.exports = router;

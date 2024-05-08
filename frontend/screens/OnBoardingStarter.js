@@ -45,7 +45,7 @@ const OnBoardingStarter = ({ navigation }) => {
           ),
           title: "Find Blood Donors",
           subtitle:
-            " Amanz ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
+            "Urgent Need? Get Donors Right Now!!",
           // titleStyles: [styles.title, { marginBottom: 5 }],
         },
 
@@ -54,7 +54,7 @@ const OnBoardingStarter = ({ navigation }) => {
           image: (
             <Image source={require("../assets/images/onboarding_2.png")} />
           ),
-          title: "Find Blood Donors",
+          title: "Donate Blood, Distribute Pleasures",
           subtitle: "Lorem ipsum ",
           // titleStyles: [styles.title, { marginBottom: 5 }],
         },

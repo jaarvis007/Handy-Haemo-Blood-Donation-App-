@@ -5,10 +5,8 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageContainer from '../components/PageContainer';
-import { images, COLORS, FONTS, SIZES } from "../constants";
+import { COLORS, FONTS } from "../constants";
 import { useNavigation } from '@react-navigation/native';
-
-
 
 export default function WantToDonate() {
   const [location, setLocation] = useState(null);
@@ -18,7 +16,6 @@ export default function WantToDonate() {
   useEffect(() => {
     AsyncStorage.getItem("user").then((data) => {
       setUserDetail(JSON.parse(data));
-      console.log(user)
     });
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -29,17 +26,13 @@ export default function WantToDonate() {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      console.log(location)
     })();
   }, []);
 
-  const handleSubmit = async (locationData) => {
+  const handleSubmit = async (visible) => {
     try {
-
-      if (locationData == null || userDetail == null) {
-        console.log(locationData, userDetail);
-        Alert.alert("Field not present");
-
+      if (location == null || userDetail == null) {
+        Alert.alert("Fields not present");
         return;
       }
 
@@ -47,9 +40,9 @@ export default function WantToDonate() {
         coords: location.coords,
         mocked: location.mocked,
         timestamp: location.timestamp,
-        email: userDetail.email, // Example email
+        email: userDetail.email,
         name: userDetail.name,
-        visible: true // Example visibility status
+        visible: visible,
       };
 
       const response = await fetch(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/location/update-location`, {
@@ -63,104 +56,69 @@ export default function WantToDonate() {
       if (!response.ok) {
         throw new Error('Failed to save location data');
       }
-      Alert.alert('Location data saved successfully')
-      console.log('Location data saved successfully');
+
+      Alert.alert('Location data saved successfully');
     } catch (error) {
-      Alert.alert(error.message)
-      console.error(error.message);
+      Alert.alert(error.message);
     }
   };
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
   return (
-    // <Text>{JSON.parse(location)}</Text>
     <SafeAreaView style={{ flex: 1 }}>
       <PageContainer>
-        <ScrollView>
-          <View
-            style={{
-              flex: 1,
-              marginTop: 25,
-              marginHorizontal: 25,
-              alignItems: "center",
-            }}
-          >
-
-
-            {/* logo */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignContent: "center",
-              }}
-            >
-              <Text style={{ ...FONTS.h1, color: COLORS.primary }}>Want</Text>
-              <Text
-                style={{
-                  ...FONTS.h1,
-                  color: COLORS.black,
-                  marginHorizontal: 8,
-                }}
-              >
-                To
-              </Text>
-              <Text style={{ ...FONTS.h1, color: COLORS.primary }}>Donate</Text>
-            </View>
-
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>Want</Text>
+            <Text style={styles.logoText1}>To</Text>
+            <Text style={styles.logoText}>Donate</Text>
           </View>
 
-          {/* button */}
-
-          {location == null ? (<Text>Waiting</Text>) : errorMsg !== null ? <Text>{errorMsg}</Text> : <Text style={styles.paragraph}>{JSON.stringify(location)}</Text>}
-          <Button
-            onPress={() => { handleSubmit(location) }}
-            filled
-            title='On Location'
-          ></Button>
-
-          <Button
-            // onPress={()=>{handleSubmit(location)}}
-            title='Off Location'
-          ></Button>
-
-          <View
-            style={{
-              marginVertical: 20,
-              flexDirection: "row",
-            }}
-          >
-
-
-            <TouchableOpacity onPress={() => navigation.navigate("BottomNavigation")}>
-              <Text
-                style={{
-                  ...FONTS.body3,
-                  color: COLORS.primary,
-                }}
-              >
-                Back To Home
-              </Text>
-            </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <Button onPress={() => handleSubmit(true)} filled title='Visibility On' />
+            <Button onPress={() => handleSubmit(false)} title='Visibility Off' />
           </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate("BottomNavigation")} style={styles.backButton}>
+            <Text style={styles.backButtonText}>Back To Home</Text>
+          </TouchableOpacity>
         </ScrollView>
       </PageContainer>
     </SafeAreaView>
-
-
-
-
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    flexGrow: 1,
     justifyContent: 'center',
-    padding: 20,
+    alignItems: 'center',
   },
-  paragraph: {
-    fontSize: 18,
-    textAlign: 'center',
+  logoContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  logoText: {
+    ...FONTS.h1,
+    color: COLORS.primary,
+    marginHorizontal: 8,
+  },
+  logoText1: {
+    ...FONTS.h1,
+    color: COLORS.black,
+    marginHorizontal: 8,
+  },
+  buttonContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  backButton: {
+    marginTop: 20,
+  },
+  backButtonText: {
+    ...FONTS.body3,
+    color: COLORS.primary,
   },
 });

@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "../constants/Home/Slider";
 import Body from "../constants/Home/Body";
 import DonationComponent from "../constants/Home/DonationComponent";
+import { COLORS, FONTS } from "../constants";
 // import { donationdata } from "../constants/Home/Data";
 // import 'dotenv/config';
 
@@ -56,6 +57,27 @@ const Home = () => {
           data={donationdata}
           ListHeaderComponent={() => (
             <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginTop: '10%',
+                  marginBottom: "10%",
+                  justifyContent: "center",
+                  alignContent: "center",
+                }}
+              >
+                <Text style={{ ...FONTS.h1, color: COLORS.primary }}>HANDY</Text>
+                <Text
+                  style={{
+                    ...FONTS.h1,
+                    color: COLORS.black,
+                    marginHorizontal: 1,
+                  }}
+                >
+                  -
+                </Text>
+                <Text style={{ ...FONTS.h1, color: COLORS.primary }}>HAEMO</Text>
+              </View>
               <Slider />
               <Body />
             </View>

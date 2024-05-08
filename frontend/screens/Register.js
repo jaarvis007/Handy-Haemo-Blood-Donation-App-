@@ -83,17 +83,13 @@ const Register = ({ navigation }) => {
                 alignContent: "center",
               }}
             >
-              <Text style={{ ...FONTS.h1, color: COLORS.primary }}>Dare</Text>
+              <Text style={{ ...FONTS.h1, color: COLORS.secondaryGray }}>HANDY</Text>
               <Text
-                style={{
-                  ...FONTS.h1,
-                  color: COLORS.black,
-                  marginHorizontal: 8,
-                }}
+                style={{ ...FONTS.h1, color: COLORS.black, marginHorizontal: 8 }}
               >
-                To
+
               </Text>
-              <Text style={{ ...FONTS.h1, color: COLORS.primary }}>Donate</Text>
+              <Text style={{ ...FONTS.h1, color: COLORS.primary }}>HAEMO</Text>
             </View>
 
             {/* inputs */}
