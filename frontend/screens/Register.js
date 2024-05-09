@@ -23,6 +23,46 @@ const Register = ({ navigation }) => {
   const [location, setLocation] = useState("");
   const [bloodtype, setBloodType] = useState("");
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!email || !password || !name || !phone || !location || !bloodtype) {
+  //     Alert.alert("Please Provide All Fields");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = Axios.post(
+  //       `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/sendOTP`,
+  //       {
+  //         name,
+  //         bloodtype,
+  //         phone,
+  //         location,
+  //         email,
+  //         password,
+  //       }
+  //     );
+
+  //     console.log(response);
+
+  //     // const responseData = await response.json();
+
+  //     if (response.ok) {
+  //       Alert.alert("Success", responseData.message);
+  //     } else {
+  //       if (response.status === 401 && !responseData.success) {
+  //         Alert.alert("Error", responseData.message);
+  //       } else {
+  //         Alert.alert("Error", "Something went wrong. Please try again later.");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error sending OTP:", error);
+  //     Alert.alert("Error", "Something went wrong. Please try again later.");
+  //   }
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,7 +72,7 @@ const Register = ({ navigation }) => {
         Alert.alert("Please Provide All Fields");
         return;
       }
-      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/register`, {
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/sendOTP`, {
         name,
         bloodtype,
         phone,
@@ -43,12 +83,23 @@ const Register = ({ navigation }) => {
         .then((response) => {
           if (response.data.success) {
             console.log(response);
-            Alert.alert("Register Successfull");
-            navigation.navigate("Login");
+            Alert.alert("OTP Send Successfully");
+            navigation.navigate("Otp", {
+              name,
+              bloodtype,
+              phone,
+              location,
+              email,
+              password,
+            });
+          } else {
+            Alert.alert(response.message);
+            return;
           }
         })
         .catch((err) => {
-          Alert.alert("Error", err.message);
+          Alert.alert("Already a User", "Given Email Exists");
+          // Alert.alert("Error", err.message);
           console.log(err);
         });
     } catch (err) {

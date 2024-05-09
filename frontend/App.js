@@ -28,6 +28,7 @@ import WantToDonate from "./screens/WantToDonate";
 import { UserProvider } from "./global/userContext";
 import EligibilityCheck from "./screens/EligibilityCheck";
 import AboutUsPage from "./screens/AboutUsPage";
+import Otp from "./screens/Otp";
 // import 'dotenv/config'
 // require('dotenv').config()
 
@@ -195,6 +196,13 @@ export default function App() {
             }}
             name="AboutUsPage"
             component={AboutUsPage}
+          />
+          <Stack.Screen
+            options={{
+              headerShown: false,
+            }}
+            name="Otp"
+            component={Otp}
           />
         </Stack.Navigator>
       </NavigationContainer>

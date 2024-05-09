@@ -4,126 +4,122 @@ const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/OTP");
 
-const registerController = async (req, res) => {
-  try {
-    const exisitingUser = await userModel.findOne({ email: req.body.email });
-    //validation
-    if (exisitingUser) {
-      return res.status(200).send({
-        success: false,
-        message: "User ALready exists",
-      });
-    }
-    //hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    req.body.password = hashedPassword;
-    //rest data
-    const user = new userModel(req.body);
-    await user.save();
-    return res.status(201).send({
-      success: true,
-      message: "User Registerd Successfully",
-      user,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Error In Register API",
-      error,
-    });
-  }
-};
-
 // const registerController = async (req, res) => {
 //   try {
-//     const {name, email, password, bloodtype, location, phone, donationCnt, requestCnt, notification, donationReq,otp } = req.body;
-//     console.log(req.body);
-
-//     // Email format validation
-//   /*  const emailRegex = /@mnnit\.ac\.in$/;
-//     if (!emailRegex.test(email)) {
-//       return res.status(200).json({
+//     const exisitingUser = await userModel.findOne({ email: req.body.email });
+//     //validation
+//     if (exisitingUser) {
+//       return res.status(200).send({
 //         success: false,
-//         message: "Email must be in @mnnit.ac.in format",
-//       });
-//     }*/
-//     console.log(req.body);
-
-//     if (!name || !email || !password || !bloodtype ||  !location || !phone  || !otp) {
-//       return res.status(202).json({
-//         success: false,
-//         message: "Please enter all the required fields",
+//         message: "User ALready exists",
 //       });
 //     }
-
-//     // Find the user's OTP
-//     const userOTP = await OTP.findOne({ email }).sort({ createdAt: -1 });
-//     console.log(userOTP);
-
-//     if (!userOTP) {
-//       return res.status(204).json({
-//         success: false,
-//         message: "OTP not found for this email",
-//       });
-//     }
-
-//     // Verify OTP
-//     if (otp !== userOTP.otp) {
-//       return res.status(205).json({
-//         success: false,
-//         message: "Invalid OTP",
-//       });
-//     }
-
-//     // Delete OTP after successful verification
-//     await OTP.deleteOne({ email });
-
-//     const existingUser = await userModel.findOne({ email });
-//     console.log(existingUser);
-//     if (existingUser) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "User already exists",
-//       });
-//     }
-
-//     const newUserDetails = {
-//       name,
-//       email,
-//       password,
-//       bloodtype,
-//       location,
-//       phone,
-//       donationCnt,
-//       requestCnt,
-//       notification,
-//       donationReq
-//     };
-
-//     const createdUser = await userModel.create(newUserDetails);
-
-//     if (!createdUser) {
-//       return res.status(500).json({
-//         success: false,
-//         message: "User creation failed",
-//       });
-//     }
-
-//     return res.status(201).json({
+//     //hash password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+//     req.body.password = hashedPassword;
+//     //rest data
+//     const user = new userModel(req.body);
+//     await user.save();
+//     return res.status(201).send({
 //       success: true,
-//       message: "User created successfully",
-//       createdUser
+//       message: "User Registerd Successfully",
+//       user,
 //     });
 //   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({
+//     console.log(error);
+//     res.status(500).send({
 //       success: false,
-//       message: "Server Error",
+//       message: "Error In Register API",
+//       error,
 //     });
 //   }
 // };
+
+const registerController = async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      password,
+      bloodtype,
+      location,
+      phone,
+      donationCnt,
+      requestCnt,
+      notification,
+      donationReq,
+      otp,
+    } = req.body;
+    console.log(req.body);
+
+    // Email format validation
+    /*  const emailRegex = /@mnnit\.ac\.in$/;
+    if (!emailRegex.test(email)) {
+      return res.status(200).json({
+        success: false,
+        message: "Email must be in @mnnit.ac.in format",
+      });
+    }*/
+    console.log(req.body);
+
+    // Find the user's OTP
+    const userOTP = await OTP.findOne({ email }).sort({ createdAt: -1 });
+    console.log(userOTP);
+
+    if (!userOTP) {
+      return res.status(204).json({
+        success: false,
+        message: "OTP not found for this email",
+      });
+    }
+
+    // Verify OTP
+    if (otp !== userOTP.otp) {
+      return res.status(205).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // Delete OTP after successful verification
+    await OTP.deleteOne({ email });
+
+    const newUserDetails = {
+      name,
+      email,
+      password,
+      bloodtype,
+      location,
+      phone,
+      donationCnt,
+      requestCnt,
+      notification,
+      donationReq,
+    };
+
+    const createdUser = await userModel.create(newUserDetails);
+
+    if (!createdUser) {
+      return res.status(500).json({
+        success: false,
+        message: "User creation failed",
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: "User Registered successfully",
+      createdUser,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
 
 const UpdateController = async (req, res) => {
   try {
@@ -216,7 +212,9 @@ const currentUserController = async (req, res) => {
     });
   }
 };
+
 const sendOTP = async (req, res) => {
+  console.log(req.body);
   try {
     //fetch email from request ki body
     const { email } = req.body;
@@ -224,15 +222,14 @@ const sendOTP = async (req, res) => {
 
     //check if user already exist
     const checkUserPresent = await userModel.findOne({ email });
-    console.log(checkUserPresent);
+    console.log("currUser", checkUserPresent);
     ///if user already exist , then return a response
     if (checkUserPresent) {
-      return res
-        .json({
-          success: false,
-          message: "User already registered",
-        })
-        .status(401);
+      return res.status(500).send({
+        success: false,
+        message: "Already Registered",
+        error,
+      });
     }
 
     //generate otp
@@ -269,9 +266,10 @@ const sendOTP = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
+    return res.status(500).send({
       success: false,
-      message: error.message,
+      message: "Error in sending OTP",
+      error,
     });
   }
 };

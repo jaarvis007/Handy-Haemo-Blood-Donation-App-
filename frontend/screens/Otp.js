@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Axios from "axios"; // Correct import
 
-const Otp = () => {
+const Otp = (props) => {
+  const navigation = useNavigation();
+  const formdata = props.route.params;
   const [otp, setOTP] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     try {
-      console.log(name, bloodtype, phone, location, email, password);
-      if (!email || !password || !name || !phone || !location || !bloodtype) {
-        Alert.alert("Please Provide All Fields");
+      console.log(formdata, otp);
+      if (otp.length !== 6) {
+        Alert.alert("Invalid OTP", "Please enter a 6-digit OTP.");
         return;
       }
       Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/register`, {
-        name,
-        bloodtype,
-        phone,
-        location,
-        email,
-        password,
+        name: formdata.name,
+        bloodtype: formdata.bloodtype,
+        phone: formdata.phone,
+        location: formdata.location,
+        email: formdata.email,
+        password: formdata.password,
+        otp,
       })
         .then((response) => {
           if (response.data.success) {
             console.log(response);
-            Alert.alert("Register Successfull");
+            Alert.alert("Register Successfully");
             navigation.navigate("Login");
           }
         })
@@ -38,20 +41,9 @@ const Otp = () => {
     }
   };
 
-  const handleVerifyOTP = () => {
-    // Validate OTP here, for example, you might want to check if it's 6 digits long
-    if (otp.length !== 6) {
-      Alert.alert("Invalid OTP", "Please enter a 6-digit OTP.");
-      return;
-    }
-
-    // You can then send the OTP to your backend for verification
-    // For demo purposes, let's just display it
-    Alert.alert("OTP Verified", `Entered OTP: ${otp}`);
-  };
-
   return (
     <View style={styles.container}>
+      <Text>{JSON.stringify(formdata)}</Text>
       <Text style={styles.title}>OTP Verification</Text>
       <TextInput
         style={styles.input}
@@ -61,7 +53,7 @@ const Otp = () => {
         value={otp}
         onChangeText={setOTP}
       />
-      <Button title="Verify OTP" onPress={handleVerifyOTP} />
+      <Button title="Verify OTP" onPress={handleSubmit} />
     </View>
   );
 };
