@@ -39,13 +39,14 @@ const Register = ({ navigation }) => {
         location,
         email,
         password,
-      }).then((response) => {
-        if (response.data.success) {
-          console.log(response);
-          Alert.alert("Register Successfull");
-          navigation.navigate("Login");
-        }
       })
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response);
+            Alert.alert("Register Successfull");
+            navigation.navigate("Login");
+          }
+        })
         .catch((err) => {
           Alert.alert("Error", err.message);
           console.log(err);
@@ -83,12 +84,16 @@ const Register = ({ navigation }) => {
                 alignContent: "center",
               }}
             >
-              <Text style={{ ...FONTS.h1, color: COLORS.secondaryGray }}>HANDY</Text>
-              <Text
-                style={{ ...FONTS.h1, color: COLORS.black, marginHorizontal: 8 }}
-              >
-
+              <Text style={{ ...FONTS.h1, color: COLORS.secondaryGray }}>
+                HANDY
               </Text>
+              <Text
+                style={{
+                  ...FONTS.h1,
+                  color: COLORS.black,
+                  marginHorizontal: 8,
+                }}
+              ></Text>
               <Text style={{ ...FONTS.h1, color: COLORS.primary }}>HAEMO</Text>
             </View>
 

@@ -25,7 +25,7 @@ import SearchProfile from "./screens/SearchProfile";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NearBySearch from "./screens/NearBySearch";
 import WantToDonate from "./screens/WantToDonate";
-import { UserProvider } from './global/userContext';
+import { UserProvider } from "./global/userContext";
 import EligibilityCheck from "./screens/EligibilityCheck";
 import AboutUsPage from "./screens/AboutUsPage";
 // import 'dotenv/config'
@@ -40,9 +40,7 @@ export default function App() {
   const [isFirstLaunch, setisFirstLaunch] = useState(null);
   const [islogin, setislogin] = useState(null);
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   const [fontsLoaded] = useFonts({
     black: require("./assets/Font/Poppins-Black.ttf"),
@@ -66,7 +64,7 @@ export default function App() {
     // <EligibilityCheck />
     // <Testing />
     // <MapScreen/>
-    // <FlashScreen/>
+    // <FlashScreen />
     // <BottomNavigation/>
     // <NotificationScreen />
     // <MapScreen/>

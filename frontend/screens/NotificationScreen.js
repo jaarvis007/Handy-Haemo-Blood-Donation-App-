@@ -1,13 +1,17 @@
-import { View, Text, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FlatList, GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
-import NotificationCard from './NotificationCard';
-import { COLORS, FONTS } from '../constants';
-import { Button } from 'react-native-elements';
-import colorValue from '../constants/ColorValue';
-import { useNavigation } from '@react-navigation/native';
-import { Axios } from 'axios';
+import { View, Text, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  FlatList,
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
+import NotificationCard from "./NotificationCard";
+import { COLORS, FONTS } from "../constants";
+import { Button } from "react-native-elements";
+import colorValue from "../constants/ColorValue";
+import { useNavigation } from "@react-navigation/native";
+import { Axios } from "axios";
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
@@ -22,7 +26,7 @@ const NotificationScreen = () => {
       try {
         const data = await AsyncStorage.getItem("user");
         const user = JSON.parse(data);
-        setUserDetail(user)
+        setUserDetail(user);
 
         try {
           const response = await fetch(
@@ -39,7 +43,7 @@ const NotificationScreen = () => {
           console.error("Error fetching data:", error);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -47,31 +51,35 @@ const NotificationScreen = () => {
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
+  console.log(notification);
+
   const handleClear = () => {
     // e.preventDefault();
     // Assuming you're using fetch API
-    console.log(notification)
-    fetch(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/func/clearNotification/` + userDetail.email, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => {
+    fetch(
+      `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/func/clearNotification/` +
+        userDetail.email,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         // Handle successful response
-        Alert.alert("Notification Cleared Successfully")
+        Alert.alert("Notification Cleared Successfully");
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle error
-        console.error('There was a problem with the request:', error);
+        console.error("There was a problem with the request:", error);
       });
-
   };
 
   return (
@@ -79,7 +87,7 @@ const NotificationScreen = () => {
       <View
         style={{
           flexDirection: "row",
-          marginTop: '10%',
+          marginTop: "10%",
           marginBottom: "10%",
           justifyContent: "center",
           alignContent: "center",
@@ -109,16 +117,19 @@ const NotificationScreen = () => {
       <View
         style={{
           justifyContent: "center",
-          marginTop: 190
-        }}>
+          marginTop: 190,
+        }}
+      >
         <Button
           title="Back"
-          onPress={() => { navigation.navigate("BottomNavigation") }}
+          onPress={() => {
+            navigation.navigate("BottomNavigation");
+          }}
           iconContainerStyle={{ marginLeft: 63 }}
-          titleStyle={{ fontWeight: '700' }}
+          titleStyle={{ fontWeight: "700" }}
           buttonStyle={{
-            backgroundColor: 'rgba(199, 43, 98, 1)',
-            borderColor: 'transparent',
+            backgroundColor: "rgba(199, 43, 98, 1)",
+            borderColor: "transparent",
             borderWidth: 0,
             borderRadius: 30,
           }}
@@ -130,26 +141,25 @@ const NotificationScreen = () => {
         />
         <Button
           title="Clear"
-          onPress={() => { handleClear() }}
+          onPress={() => {
+            handleClear();
+          }}
           iconContainerStyle={{ marginLeft: 63 }}
-          titleStyle={{ fontWeight: '700' }}
+          titleStyle={{ fontWeight: "700" }}
           buttonStyle={{
-            backgroundColor: 'rgba(199, 43, 98, 1)',
-            borderColor: 'transparent',
+            backgroundColor: "rgba(199, 43, 98, 1)",
+            borderColor: "transparent",
             borderWidth: 0,
             borderRadius: 30,
           }}
           containerStyle={{
             width: 200,
             marginHorizontal: 100,
-
           }}
         />
       </View>
-
-
     </GestureHandlerRootView>
-  )
-}
+  );
+};
 
 export default NotificationScreen;

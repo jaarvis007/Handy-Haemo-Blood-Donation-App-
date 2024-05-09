@@ -44,8 +44,7 @@ const OnBoardingStarter = ({ navigation }) => {
             <Image source={require("../assets/images//onboarding_1.png")} />
           ),
           title: "Find Blood Donors",
-          subtitle:
-            "Urgent Need? Get Donors Right Now!!",
+          subtitle: "Urgent Need? Get Donors Right Now!!",
           // titleStyles: [styles.title, { marginBottom: 5 }],
         },
 
@@ -55,7 +54,7 @@ const OnBoardingStarter = ({ navigation }) => {
             <Image source={require("../assets/images/onboarding_2.png")} />
           ),
           title: "Donate Blood, Distribute Pleasures",
-          subtitle: "Lorem ipsum ",
+          subtitle: "Join the lifesaving community, donate blood!",
           // titleStyles: [styles.title, { marginBottom: 5 }],
         },
       ]}

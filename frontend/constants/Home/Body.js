@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dimensions,
   FlatList,
@@ -6,24 +6,27 @@ import {
   Image,
   Text,
   View,
-} from 'react-native';
-import colorValue from '../ColorValue';
-import { commonStyle } from '../commonStyle';
-import fontValue from '../FontValue';
-import { ItemArray } from './Data';
-import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import colorValue from "../ColorValue";
+import { commonStyle } from "../commonStyle";
+import fontValue from "../FontValue";
+import { ItemArray } from "./Data";
+import {
+  GestureHandlerRootView,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 const Body = () => {
   const navigation = useNavigation();
 
   const handleOpt = (e) => {
     console.log(e);
-    if (e === 1) navigation.navigate("NearBySearch")
-    if (e === 2) navigation.navigate("WantToDonate")
-    if (e === 4) navigation.navigate("EligibilityCheck")
-    if (e === 6) navigation.navigate("AboutUsPage")
-  }
+    if (e === 1) navigation.navigate("NearBySearch");
+    if (e === 2) navigation.navigate("WantToDonate");
+    if (e === 5) navigation.navigate("EligibilityCheck");
+    if (e === 6) navigation.navigate("AboutUsPage");
+  };
 
   // Function to render each item
   const renderCard = ({ item }) => (
@@ -32,7 +35,6 @@ const Body = () => {
         <Card item={item} />
       </TouchableOpacity>
     </GestureHandlerRootView>
-   
   );
 
   return (
@@ -53,10 +55,7 @@ const Card = ({ item }) => {
     <View style={styles.card}>
       <View style={styles.subCard}>
         <View style={styles.body}>
-          <Image
-            style={styles.image}
-            source={item.image}
-          />
+          <Image style={styles.image} source={item.image} />
           <Text style={styles.title}>{item.title}</Text>
         </View>
       </View>
@@ -64,7 +63,7 @@ const Card = ({ item }) => {
   );
 };
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   flatListContainer: {
@@ -80,17 +79,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colorValue.white,
     borderRadius: 7, // Added border radius for rounded corners
-    overflow: 'hidden', // Added overflow to prevent content overflow
+    overflow: "hidden", // Added overflow to prevent content overflow
   },
   body: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
-    width: '60%',
-    height: '60%',
-    resizeMode: 'contain',
+    width: "60%",
+    height: "60%",
+    resizeMode: "contain",
   },
   title: {
     ...commonStyle({ fontSize: 13 }).text,
