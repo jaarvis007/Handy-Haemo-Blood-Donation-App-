@@ -1,52 +1,89 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import colorValue from '../constants/ColorValue';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Axios from "axios"; // Correct import
+import { images, COLORS, FONTS, SIZES } from "../constants";
+import { MaterialIcons, FontAwesome, Fontisto } from "@expo/vector-icons";
+import Button2 from "../components/Button";
+import Input from "../components/input";
+import Image from "../assets/images/success.png";
 
-const Testing = () => {
+const Testing = (props) => {
+  const navigation = useNavigation();
+  const formdata = props.route.params;
+  const [otp, setOTP] = useState("");
+
+  const handleSubmit = () => {
+    try {
+      console.log(formdata, otp);
+      if (otp.length !== 6) {
+        Alert.alert("Invalid OTP", "Please enter a 6-digit OTP.");
+        return;
+      }
+      Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/register`, {
+        name: formdata.name,
+        bloodtype: formdata.bloodtype,
+        phone: formdata.phone,
+        location: formdata.location,
+        email: formdata.email,
+        password: formdata.password,
+        otp,
+      })
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response);
+            Alert.alert("Register Successfully");
+            navigation.navigate("Login");
+          }
+        })
+        .catch((err) => {
+          Alert.alert("Error", err.message);
+          console.log(err);
+        });
+    } catch (err) {
+      Alert.alert("Error", err.message);
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>About Our Project</Text>
-      <Text style={styles.description}>
-        Our project aims to [brief description of the project].
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-      </Text>
-
-      <Text style={styles.heading}>Meet Our Team</Text>
-
-      {/* Profile 1 */}
-      <View style={styles.profile}>
-        <Image source={require('../assets/images/hero.png')} style={styles.profileImage} />
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileDescription}>Lead Developer</Text>
-          <Text>- 5 years of experience in React Native development</Text>
-          <Text>- Expertise in backend technologies</Text>
-        </View>
-      </View>
-
-      {/* Profile 2 */}
-      <View style={styles.profile}>
-        <Image source={require('../assets/images/hero.png')} style={styles.profileImage} />
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>Jane Smith</Text>
-          <Text style={styles.profileDescription}>UI/UX Designer</Text>
-          <Text>- Award-winning designer with 8 years of experience</Text>
-          <Text>- Proficient in Adobe Creative Suite</Text>
-        </View>
-      </View>
-
-      {/* Profile 3 */}
-      <View style={styles.profile}>
-        <Image source={require('../assets/images/hero.png')} style={styles.profileImage} />
-
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>Mike Johnson</Text>
-          <Text style={styles.profileDescription}>Project Manager</Text>
-          <Text>- Certified Scrum Master</Text>
-          <Text>- Strong leadership and communication skills</Text>
-        </View>
-      </View>
+      <Image
+        // source={images}
+        resizeMode="contain"
+        style={{
+          tintColor: COLORS.primary,
+          marginVertical: 48,
+        }}
+      />
+      <Text>{JSON.stringify(formdata)}</Text>
+      <Text style={styles.title}>OTP Verification</Text>
+      <Input
+        style={{ width: "70%" }}
+        icon="phone"
+        iconPack={FontAwesome}
+        id="OTP"
+        placeholder="Enter OTP"
+        onChangeText={(otp) => setOTP(otp)}
+        value={otp}
+      />
+      {/* <TextInput
+        style={styles.input}
+        placeholder="Enter OTP"
+        keyboardType="numeric"
+        maxLength={6}
+        value={otp}
+        onChangeText={setOTP}
+      /> */}
+      <Button2
+        title={"Verify OTP"}
+        filled
+        onPress={handleSubmit}
+        style={{
+          width: "70%",
+        }}
+      />
+      {/* <Button title="Verify OTP" onPress={handleSubmit} /> */}
     </View>
   );
 };
@@ -54,43 +91,21 @@ const Testing = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: colorValue.primary, // Red theme color
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
-  heading: {
+  title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#FFF', // White color for text
-  },
-  description: {
-    marginBottom: 20,
-    color: '#FFF', // White color for text
-  },
-  profile: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 20,
   },
-  profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginRight: 20,
-  },
-  profileName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#FFF', // White color for text
-  },
-  profileDescription: {
-    fontStyle: 'italic',
-    marginBottom: 5,
-    color: '#FFF', // White color for text
-  },
-  profileInfo: {
-    flex: 1,
+  input: {
+    width: "80%",
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 20,
   },
 });
 

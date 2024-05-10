@@ -1,7 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Axios from "axios"; // Correct import
+import { images, COLORS, FONTS, SIZES } from "../constants";
+import { MaterialIcons, FontAwesome, Fontisto } from "@expo/vector-icons";
+import Button2 from "../components/Button";
+import Input from "../components/input";
+import sucessImage from "../assets/images/success.png";
+import colorValue from "../constants/ColorValue";
 
 const Otp = (props) => {
   const navigation = useNavigation();
@@ -43,17 +58,45 @@ const Otp = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>{JSON.stringify(formdata)}</Text>
-      <Text style={styles.title}>OTP Verification</Text>
-      <TextInput
+      <Image
+        source={sucessImage}
+        resizeMode="contain"
+        style={{
+          //   tintColor: COLORS.primary,
+          marginVertical: 48,
+        }}
+      />
+
+      <Text style={{ ...FONTS.h1, color: COLORS.black }}>OTPVerification</Text>
+      {/* <Text>{JSON.stringify(formdata)}</Text> */}
+      {/* <Text style={styles.title}>OTP Verification</Text> */}
+      <View style={{ width: "85%", marginBottom: 10, marginTop: 10 }}>
+        <Input
+          icon="phone"
+          iconPack={FontAwesome}
+          id="OTP"
+          placeholder="Enter OTP"
+          onChangeText={(otp) => setOTP(otp)}
+          value={otp}
+        />
+      </View>
+      {/* <TextInput
         style={styles.input}
         placeholder="Enter OTP"
         keyboardType="numeric"
         maxLength={6}
         value={otp}
         onChangeText={setOTP}
+      /> */}
+      <Button2
+        title={"Verify OTP"}
+        filled
+        onPress={handleSubmit}
+        style={{
+          width: "70%",
+        }}
       />
-      <Button title="Verify OTP" onPress={handleSubmit} />
+      {/* <Button title="Verify OTP" onPress={handleSubmit} /> */}
     </View>
   );
 };
@@ -68,6 +111,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
+    color: colorValue.primary,
   },
   input: {
     width: "80%",

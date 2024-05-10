@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,56 +23,40 @@ const Register = ({ navigation }) => {
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [bloodtype, setBloodType] = useState("");
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!email || !password || !name || !phone || !location || !bloodtype) {
-  //     Alert.alert("Please Provide All Fields");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = Axios.post(
-  //       `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/sendOTP`,
-  //       {
-  //         name,
-  //         bloodtype,
-  //         phone,
-  //         location,
-  //         email,
-  //         password,
-  //       }
-  //     );
-
-  //     console.log(response);
-
-  //     // const responseData = await response.json();
-
-  //     if (response.ok) {
-  //       Alert.alert("Success", responseData.message);
-  //     } else {
-  //       if (response.status === 401 && !responseData.success) {
-  //         Alert.alert("Error", responseData.message);
-  //       } else {
-  //         Alert.alert("Error", "Something went wrong. Please try again later.");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error sending OTP:", error);
-  //     Alert.alert("Error", "Something went wrong. Please try again later.");
-  //   }
-  // };
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     try {
-      console.log(name, bloodtype, phone, location, email, password);
       if (!email || !password || !name || !phone || !location || !bloodtype) {
         Alert.alert("Please Provide All Fields");
         return;
       }
+
+      if (!validateEmail(email)) {
+        Alert.alert("Invalid Email", "Please enter a valid email address");
+        return;
+      }
+
+      if (password.length < 6) {
+        Alert.alert(
+          "Weak Password",
+          "Password must be at least 6 characters long"
+        );
+        return;
+      }
+
+      if (!isValidBloodType(bloodtype)) {
+        Alert.alert(
+          "Invalid Blood Type",
+          "Please enter a valid blood type (e.g., A+, B-, AB+, O-)"
+        );
+        return;
+      }
+
+      setLoading(true); // Set loading state to true
+
       Axios.post(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/auth/sendOTP`, {
         name,
         bloodtype,
@@ -81,8 +66,8 @@ const Register = ({ navigation }) => {
         password,
       })
         .then((response) => {
+          setLoading(false); // Set loading state to false after receiving response
           if (response.data.success) {
-            console.log(response);
             Alert.alert("OTP Send Successfully");
             navigation.navigate("Otp", {
               name,
@@ -98,14 +83,25 @@ const Register = ({ navigation }) => {
           }
         })
         .catch((err) => {
-          Alert.alert("Already a User", "Given Email Exists");
-          // Alert.alert("Error", err.message);
+          setLoading(false); // Set loading state to false in case of error
+          Alert.alert("Error", err.message);
           console.log(err);
         });
     } catch (err) {
+      setLoading(false); // Set loading state to false in case of error
       Alert.alert("Error", err.message);
       console.log(err);
     }
+  };
+
+  const validateEmail = (email) => {
+    const emailPattern = /\S+@\S+\.\S+/;
+    return emailPattern.test(email);
+  };
+
+  const isValidBloodType = (bloodType) => {
+    const validBloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+    return validBloodTypes.includes(bloodType.toUpperCase());
   };
 
   return (
@@ -128,7 +124,6 @@ const Register = ({ navigation }) => {
               }}
             />
 
-            {/* logo */}
             <View
               style={{
                 flexDirection: "row",
@@ -148,7 +143,6 @@ const Register = ({ navigation }) => {
               <Text style={{ ...FONTS.h1, color: COLORS.primary }}>HAEMO</Text>
             </View>
 
-            {/* inputs */}
             <View style={{ marginVertical: 20 }}>
               <Input
                 icon="user"
@@ -205,8 +199,6 @@ const Register = ({ navigation }) => {
               />
             </View>
 
-            {/* button */}
-
             <Button
               title={"Register"}
               filled
@@ -215,6 +207,10 @@ const Register = ({ navigation }) => {
                 width: "100%",
               }}
             />
+
+            {loading && (
+              <ActivityIndicator size="large" color={COLORS.primary} />
+            )}
 
             <View
               style={{
