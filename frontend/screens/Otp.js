@@ -25,7 +25,7 @@ const Otp = (props) => {
 
   const handleSubmit = () => {
     try {
-      console.log(formdata, otp);
+      //   console.log(formdata, otp);
       if (otp.length !== 6) {
         Alert.alert("Invalid OTP", "Please enter a 6-digit OTP.");
         return;
@@ -68,7 +68,7 @@ const Otp = (props) => {
       />
 
       <Text style={{ ...FONTS.h1, color: COLORS.black }}>OTPVerification</Text>
-      {/* <Text>{JSON.stringify(formdata)}</Text> */}
+      <Text>{JSON.stringify(formdata)}</Text>
       {/* <Text style={styles.title}>OTP Verification</Text> */}
       <View style={{ width: "85%", marginBottom: 10, marginTop: 10 }}>
         <Input

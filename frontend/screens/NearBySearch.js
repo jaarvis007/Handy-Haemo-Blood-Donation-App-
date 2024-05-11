@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import * as Location from 'expo-location';
-import { WebView } from 'react-native-webview';
-import { commonJustify } from '../constants/commonStyle';
-import { Button, Slider } from 'react-native-elements';
-import colorValue from '../constants/ColorValue';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import * as Location from "expo-location";
+import { WebView } from "react-native-webview";
+import { commonJustify } from "../constants/commonStyle";
+import { Button, Slider } from "react-native-elements";
+import colorValue from "../constants/ColorValue";
 import { images, COLORS, FONTS, SIZES } from "../constants";
 
-import SearchComponent from './SeachComponent';
-import { FlatList, GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
-import NearbyResult from './NearbyResult';
+import SearchComponent from "./SeachComponent";
+import {
+  FlatList,
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
+import NearbyResult from "./NearbyResult";
 
 export default function NearBySearch() {
   const [currlocation, setcurrLocation] = useState(null);
@@ -23,8 +33,8 @@ export default function NearBySearch() {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -34,19 +44,22 @@ export default function NearBySearch() {
       setcurrLocation(location);
       console.log(location);
       setlat(location.coords.latitude);
-      setlong(location.coords.longitude)
+      setlong(location.coords.longitude);
       fetchData();
     })();
 
     // const intervalId = setInterval(fetchData, 2000);
     // return () => clearInterval(intervalId);
-
   }, [isList, range]);
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/location/nearest?latitude=${lat}&longitude=${long}&range=${range * 1000}`
+        `${
+          process.env.EXPO_PUBLIC_CLIENT_URL
+        }/api/v1/location/nearest?latitude=${lat}&longitude=${long}&range=${
+          range * 1000
+        }`
       ); // Replace with your API endpoint
 
       if (!response.ok) {
@@ -55,9 +68,9 @@ export default function NearBySearch() {
       }
       const jsonData = await response.json();
       setnearByLocation(jsonData); // Update state with fetched data
-      jsonData.map(obj => {
+      jsonData.map((obj) => {
         console.log(obj.name);
-      })
+      });
       // console.log(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -74,7 +87,6 @@ export default function NearBySearch() {
 
   const webViewRef = React.useRef(null);
 
-
   if (isList === true) {
     return (
       <GestureHandlerRootView>
@@ -84,8 +96,8 @@ export default function NearBySearch() {
               // position: 'absolute',
               marginTop: 20,
               marginBottom: 30,
-              justifyContent: 'center',
-              alignContent: 'center',
+              justifyContent: "center",
+              alignContent: "center",
               flexDirection: "row",
               alignContent: "center",
             }}
@@ -113,14 +125,12 @@ export default function NearBySearch() {
           )}
         </View>
         <Button
-          title={'Swich to MapView'}
+          title={"Swich to MapView"}
           buttonStyle={styles.switchListButton}
           onPress={() => setisList(!isList)}
         />
       </GestureHandlerRootView>
-
-
-    )
+    );
   }
 
   //mapView..
@@ -130,7 +140,7 @@ export default function NearBySearch() {
         <>
           <WebView
             ref={webViewRef}
-            originWhitelist={['*']}
+            originWhitelist={["*"]}
             source={{
               html: `<html>
                   <head>
@@ -143,33 +153,40 @@ export default function NearBySearch() {
                       <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
                       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
                       <script>
-                          var map = L.map('map').setView([${currlocation.coords.latitude},${currlocation.coords.longitude}], ${15.357-0.0357*range});
+                          var map = L.map('map').setView([${
+                            currlocation.coords.latitude
+                          },${currlocation.coords.longitude}], ${
+                15.357 - 0.0357 * range
+              });
                           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                           }).addTo(map);
 
-                           L.marker([${currlocation.coords.latitude}, ${currlocation.coords.longitude}]).addTo(map).bindPopup('You');
+                           L.marker([${currlocation.coords.latitude}, ${
+                currlocation.coords.longitude
+              }]).addTo(map).bindPopup('You');
                            
-                           var nearbyMarkers = ${JSON.stringify(nearbyLocation)}.map(obj => {
+                           var nearbyMarkers = ${JSON.stringify(
+                             nearbyLocation
+                           )}.map(obj => {
                               return L.marker([obj.coords.latitude, obj.coords.longitude]).addTo(map).bindPopup(obj.name+" "+obj.distance/1000+" "+ 'km away');
                             });
 
                       </script>
                   </body>
-              </html>`
+              </html>`,
             }}
             style={styles.map}
           />
-
 
           {/* <Slider */}
           <View style={styles.sliderContainer}>
             <Text style={styles.sliderLabel}>Range: {range} km</Text>
             <Slider
               style={styles.slider}
-              minimumValue={10}
-              maximumValue={150}
-              step={5}
+              minimumValue={5}
+              maximumValue={70}
+              step={1}
               value={range}
               onValueChange={setRange}
             />
@@ -190,28 +207,30 @@ export default function NearBySearch() {
             </TouchableOpacity> */}
           </View>
           <Button
-            title={'Swich to ListView'}
+            title={"Swich to ListView"}
             buttonStyle={styles.switchMapButton}
             onPress={() => setisList(!isList)}
           />
         </>
-      ) : (<><ActivityIndicator /></>)}
+      ) : (
+        <>
+          <ActivityIndicator />
+        </>
+      )}
     </View>
-
-
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   map: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   switchMapButton: {
     backgroundColor: colorValue.primary,
@@ -219,25 +238,24 @@ const styles = StyleSheet.create({
   switchListButton: {
     backgroundColor: colorValue.primary,
     // position: 'absolute',
-
   },
   button: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     padding: 10,
     borderRadius: 5,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   button2: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 120,
     right: 100,
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     padding: 10,
     borderRadius: 5,
   },
@@ -247,10 +265,10 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   slider: {
-    width: '70%',
+    width: "70%",
   },
 });

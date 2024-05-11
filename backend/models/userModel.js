@@ -4,8 +4,8 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require:true
-      },
+      require: true,
+    },
     email: {
       type: String,
       required: [true, "email is required"],
@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "password is requied"],
     },
-    bloodtype:{
+    bloodtype: {
       type: String,
-      enum: ['A+','A-', 'B+','B-', 'AB+','AB-', 'O+','O-'],
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
       required: [true, "bloodtype is requied"],
     },
     location: {
@@ -28,22 +28,22 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: [true, "phone number is required"],
     },
-    donationCnt:{
+    donationCnt: {
       type: Number,
-      default: 0 // Default value for points is zero
+      default: 0, // Default value for points is zero
     },
-    requestCnt:{
+    requestCnt: {
       type: Number,
-      default: 0
+      default: 0,
     },
-    notification:{
+    notification: {
       type: Array,
-      default: []
+      default: [],
     },
-    donationReq:{
+    donationReq: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
   { timestamps: true }
 );

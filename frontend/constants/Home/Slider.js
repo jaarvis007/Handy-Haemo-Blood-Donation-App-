@@ -2,10 +2,10 @@ import React from "react";
 import { Text, Dimensions, StyleSheet, View, Image } from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { images, COLORS, FONTS, SIZES } from ".."; // Assuming you have imported your images correctly
-const image1 = require("../../assets/images/hero.png");
-const image2 = require("../../assets/images/hero.png");
-const image3 = require("../../assets/images/hero.png");
-const image4 = require("../../assets/images/hero.png");
+const image1 = require("../../assets/images/slider/slider5.webp");
+const image2 = require("../../assets/images/slider/slider2.jpg");
+const image3 = require("../../assets/images/slider/slider3.jpg");
+const image4 = require("../../assets/images/slider/slider4.jpg");
 
 const Slider = () => (
   <View style={styles.main}>

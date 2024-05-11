@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import * as Location from 'expo-location';
-import Button from '../components/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import PageContainer from '../components/PageContainer';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import * as Location from "expo-location";
+import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import PageContainer from "../components/PageContainer";
 import { COLORS, FONTS } from "../constants";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export default function WantToDonate() {
   const [location, setLocation] = useState(null);
@@ -19,8 +26,8 @@ export default function WantToDonate() {
     });
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -45,19 +52,23 @@ export default function WantToDonate() {
         visible: visible,
       };
 
-      const response = await fetch(`${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/location/update-location`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSend),
-      });
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_CLIENT_URL}/api/v1/location/update-location`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSend),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to save location data');
+        throw new Error("Failed to save location data");
       }
 
-      Alert.alert('Location data saved successfully');
+      if (visible) Alert.alert("Your visibility is ON now");
+      else Alert.alert("Your visibility is OFF now");
     } catch (error) {
       Alert.alert(error.message);
     }
@@ -75,12 +86,23 @@ export default function WantToDonate() {
             <Text style={styles.logoText}>Donate</Text>
           </View>
 
+          {location === null ? <Text>Can't Get Your Location</Text> : <></>}
           <View style={styles.buttonContainer}>
-            <Button onPress={() => handleSubmit(true)} filled title='Visibility On' />
-            <Button onPress={() => handleSubmit(false)} title='Visibility Off' />
+            <Button
+              onPress={() => handleSubmit(true)}
+              filled
+              title="Visibility On"
+            />
+            <Button
+              onPress={() => handleSubmit(false)}
+              title="Visibility Off"
+            />
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate("BottomNavigation")} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("BottomNavigation")}
+            style={styles.backButton}
+          >
             <Text style={styles.backButtonText}>Back To Home</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -92,8 +114,8 @@ export default function WantToDonate() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   logoContainer: {
     flexDirection: "row",
@@ -110,7 +132,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   buttonContainer: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 20,
     marginBottom: 20,
   },

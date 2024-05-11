@@ -1,27 +1,28 @@
 // Assuming you have already set up Express and connected to MongoDB with Mongoose
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const geolib = require('geolib');
-const Location = require('../models/LocationModel');
+const geolib = require("geolib");
+const Location = require("../models/LocationModel");
 
 // Handle POST requests to save location data
 router.get("/getLocations", async (req, res) => {
   try {
-    Location.find().then((data) => {
-      // console.log(data);
-      res.status(200).json({ data: data });
-    }).catch((e) => {
-      console.log(e);
-      res.status(500).json({ msg: "unable to find data" });
-    })
-
+    Location.find()
+      .then((data) => {
+        // console.log(data);
+        res.status(200).json({ data: data });
+      })
+      .catch((e) => {
+        console.log(e);
+        res.status(500).json({ msg: "unable to find data" });
+      });
   } catch (e) {
     console.log(e);
     res.status(500).json({ msg: "unable to get data" });
   }
 });
 
-router.post('/update-location', async (req, res) => {
+router.post("/update-location", async (req, res) => {
   console.log(req.body);
   try {
     // Extract latitude, longitude, and other data from the request body
@@ -40,7 +41,7 @@ router.post('/update-location', async (req, res) => {
 
       // Save the updated location document
       await existingLocation.save();
-      res.status(200).send('Location data updated successfully');
+      res.status(200).send("Location data updated successfully");
     } else {
       // If the document doesn't exist, create a new location document
       const newLocation = new Location({
@@ -49,20 +50,20 @@ router.post('/update-location', async (req, res) => {
         coords,
         mocked,
         timestamp,
-        visible
+        visible,
       });
 
       // Save the new location document to the database
       await newLocation.save();
-      res.status(201).send('Location data saved successfully');
+      res.status(201).send("Location data saved successfully");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 
-router.get('/nearest', async (req, res) => {
+router.get("/nearest", async (req, res) => {
   const { latitude, longitude, range } = req.query;
 
   // Log the received query parameters
@@ -70,7 +71,9 @@ router.get('/nearest', async (req, res) => {
 
   // Check if latitude, longitude, and range are provided
   if (!latitude || !longitude || !range) {
-    return res.status(400).json({ message: 'Latitude, longitude, and range are required' });
+    return res
+      .status(400)
+      .json({ message: "Latitude, longitude, and range are required" });
   }
 
   // Parse latitude, longitude, and range as floats
@@ -83,16 +86,21 @@ router.get('/nearest', async (req, res) => {
     const locations = await Location.find().lean().exec();
 
     // Calculate distance from each location to the provided coordinates
-    const locationsWithDistance = locations.map(location => {
+    const locationsWithDistance = locations.map((location) => {
       const distance = geolib.getDistance(
-        { latitude: location.coords.latitude, longitude: location.coords.longitude },
+        {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        },
         { latitude: lat, longitude: lon }
       );
       return { ...location, distance };
     });
 
     // Filter locations by distance based on the provided range
-    const nearbyLocations = locationsWithDistance.filter(location => location.distance <= rang && location.visible === true && location.distance!==0);
+    const nearbyLocations = locationsWithDistance.filter(
+      (location) => location.distance <= rang && location.visible === true
+    );
 
     // Sort nearby locations by distance in ascending order
     nearbyLocations.sort((a, b) => a.distance - b.distance);
@@ -101,8 +109,8 @@ router.get('/nearest', async (req, res) => {
     res.json(nearbyLocations);
   } catch (error) {
     // Handle any errors
-    console.error('Error fetching nearest locations:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error fetching nearest locations:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
