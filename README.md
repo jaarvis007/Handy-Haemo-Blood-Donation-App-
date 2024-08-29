@@ -36,10 +36,12 @@ Our goal is to address these shortcomings by developing a solution that enables 
   - MongoDB: For the database to store user details and requests.
 - **Geolocation:**
   - Leaflet Maps API: For rendering map in application.
-  - Geolob API:  For computing distances between latitude/longitude coordinates.
+  - Geolocation API: For accessing the geographic location of a device.
+  - Geolib API: For computing distances between latitude/longitude coordinates.
 - **Authentication:**
   - JWT (JSON Web Tokens): For secure user authentication and authorization.
   - Bcrypt.js: For hashing the password.
+  - Nodemailer: For sending OTP email to user.
  
  ## Result & Snaps
 ![Screenshot (8)](https://github.com/jaarvis007/Handy-Haemo-Blood-Donation-App-/assets/115578878/afcf12c3-8f7f-4a5c-9e7b-58bf171b5070)
